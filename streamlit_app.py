@@ -9,11 +9,18 @@ from pathlib import Path
 import streamlit as st
 import pandas as pd
 
+import subprocess
 import sys
 sys.path.insert(0, str(Path(__file__).parent))
 import db
 
-IDEAS_FILE = Path(__file__).parent / "data" / "ideas.json"
+REPO_DIR   = Path(__file__).parent
+IDEAS_FILE = REPO_DIR / "data" / "ideas.json"
+
+# Auto-seed DB from opportunities.json if empty (for Streamlit Cloud deployments)
+_opps_json = REPO_DIR / "data" / "opportunities.json"
+if db.count().get("active", 0) == 0 and _opps_json.exists():
+    subprocess.run([sys.executable, str(REPO_DIR / "scripts" / "migrate.py")], check=False)
 TODAY      = date.today()
 
 # ─── Page config ──────────────────────────────────────────────────────────────
