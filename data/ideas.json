@@ -1,0 +1,546 @@
+{
+  "meta": {
+    "principle": "Target underserved tracks. Most teams use the most obvious sponsor tech. Win by using the OBSCURE features that the sponsor's team built and no one demos.",
+    "anti_generic_rule": "If an LLM can suggest the idea in 5 seconds without knowing the hackathon, it's generic. If it requires knowing the sponsor's lesser-known tech, it's not.",
+    "demo_rule": "Judges see 60-100 projects in 2-3 hours. Your job is to create ONE moment of genuine surprise. Build backwards from the demo, not forwards from the architecture.",
+    "reuse_principle": "Build shared_components FIRST. sentinel-core + on-chain-commitment + react-shell unlocks 5 events. Build once, rebrand 5 times."
+  },
+  "shared_components": [
+    {
+      "id": "sentinel-core",
+      "name": "SENTINEL Core Engine",
+      "description": "AI claim analyzer: input a claim/fact/event, output credibility score + evidence chain + contradictions. Keep it stateless, REST API or serverless function.",
+      "hours_to_build": 8,
+      "used_by": [
+        "chainlink-convergence",
+        "pl-genesis",
+        "starknet-redefine",
+        "ai-trading-agents-erc8004",
+        "monolith-seeker"
+      ],
+      "stack": [
+        "Python FastAPI or Node.js",
+        "LLM inference (local or API)",
+        "JSON schema for evidence output"
+      ],
+      "build_first": true,
+      "note": "Build this Day 1. Everything else wraps it."
+    },
+    {
+      "id": "on-chain-commitment",
+      "name": "On-Chain Truth Commitment",
+      "description": "EVM contract: submitClaim(bytes32 contentHash, uint256 timestamp) -> returns attestationId. Emit event. That is all. Simple = reusable.",
+      "hours_to_build": 3,
+      "used_by": [
+        "chainlink-convergence",
+        "pl-genesis",
+        "ai-trading-agents-erc8004"
+      ],
+      "stack": [
+        "Solidity",
+        "Hardhat",
+        "ethers.js"
+      ],
+      "build_first": true,
+      "note": "Do not over-engineer. A 40-line contract that actually works beats a 400-line contract that doesn't."
+    },
+    {
+      "id": "react-shell",
+      "name": "Frontend Shell (WalletConnect + TailwindCSS)",
+      "description": "Single-page React app with: wallet connect button, a search/input field, a results panel with credibility score visualization. Rebrand per event.",
+      "hours_to_build": 4,
+      "used_by": [
+        "chainlink-convergence",
+        "pl-genesis",
+        "starknet-redefine",
+        "ai-trading-agents-erc8004"
+      ],
+      "stack": [
+        "React",
+        "Vite",
+        "TailwindCSS",
+        "wagmi",
+        "viem"
+      ],
+      "build_first": true,
+      "note": "Design this well. Judges judge on what they SEE. Spend 20% of frontend time on the credibility score visualization - make it beautiful and memorable."
+    },
+    {
+      "id": "ipfs-dag",
+      "name": "IPFS Content-Addressed Claim Graph",
+      "description": "Each claim is a JSON object stored on IPFS. The CID IS the identity. Claims reference parent CIDs as sources. Graph traversal = truth provenance.",
+      "hours_to_build": 6,
+      "used_by": [
+        "pl-genesis"
+      ],
+      "stack": [
+        "kubo / Helia (js-ipfs)",
+        "ipfs-http-client",
+        "DAG-JSON"
+      ],
+      "build_first": false,
+      "note": "This is PL Genesis-specific. Build after sentinel-core is done."
+    },
+    {
+      "id": "solana-mobile-shell",
+      "name": "Solana Mobile dApp Shell",
+      "description": "Expo/React Native app with Solana Mobile Wallet Adapter. GPS attestation + camera capture + transaction signing.",
+      "hours_to_build": 6,
+      "used_by": [
+        "monolith-seeker"
+      ],
+      "stack": [
+        "Expo",
+        "React Native",
+        "@solana-mobile/wallet-adapter-mobile",
+        "expo-location",
+        "expo-camera"
+      ],
+      "build_first": false,
+      "note": "If no Seeker device available for demo: use web app + emulator. Judges understand."
+    }
+  ],
+  "events": {
+    "chainlink-convergence": {
+      "judge_profile": "CONFIRMED JUDGES: Dave Isbitski & Richard Gottleber (Chainlink Labs), Scott Dykstra (Co-Founder, Space and Time), Oleg Kron (CTO, Concero), Christian Harrington (QuantAmm). CRITICAL: Scott Dykstra runs Space and Time -- a decentralized SQL database that is a native Chainlink partner. Any project that integrates Space and Time + Chainlink Functions puts you directly in front of one judge's own product. Past winners used 3+ Chainlink services together: YieldCoin (CCIP+Automation+Functions), BuckyFinance (CCIP+Feeds+Functions). 'The Future of France' (educational game) won Block Magic with VRF -- non-DeFi won the GRAND PRIZE.",
+      "judging_criteria": {
+        "chainlink_multi_service_integration_CRE_CCIP_Functions": 35,
+        "technical_implementation_quality": 30,
+        "real_world_defi_or_infra_impact": 25,
+        "presentation": 10
+      },
+      "underserved_tracks": [
+        "Chainlink Runtime Environment / CRE (brand new, almost no demos yet)",
+        "Space and Time integration (judge Scott Dykstra's own company)",
+        "Non-financial use cases (Block Magic grand prize was an EDUCATIONAL GAME)",
+        "CCIP + Functions combo"
+      ],
+      "generic_to_avoid": [
+        "Single Chainlink service use (any project using ONLY price feeds)",
+        "DeFi yield optimizer using Chainlink price oracle",
+        "NFT that updates metadata based on price feeds",
+        "Generic 'decentralized data' pitch where Chainlink is swappable",
+        "Chatbot that calls Chainlink APIs"
+      ],
+      "judge_exploit": "Scott Dykstra (Space and Time) is judging. Space and Time lets you run SQL queries on verifiable blockchain data with ZK proofs. SENTINEL storing its claim evidence in a Space and Time database, queried via Chainlink Functions, and verified on-chain = directly appeals to a judge's own product. This is not pandering -- it's a genuinely good architectural choice.",
+      "key_judge_insight": "CONFIRMED PATTERN: 3 Chainlink services minimum for winners. Non-DeFi CAN win (Block Magic 2024 grand prize was an educational game using VRF). CRE is the most underused 2026-specific feature. Space and Time integration = direct judge appeal.",
+      "ideas": [
+        {
+          "id": "oracle-dissent",
+          "title": "Oracle Dissent Protocol",
+          "hook": "Oracle disagreement is treated as an error today. Make it a security signal.",
+          "concept": "Chainlink Functions job polls 5+ independent sources (Coingecko, on-chain TWAP, CEX feeds, social sentiment). When sources diverge beyond a threshold, it doesn't fail -- it emits an on-chain DISSENT_ALERT with a payload: which sources, how much divergence, timestamp. A Solidity contract accumulates these alerts and exports a 'market integrity score' that DeFi protocols can consume.",
+          "why_different": "Every team uses Chainlink to get data when everything agrees. No one has turned DISAGREEMENT into a product. The Chainlink team has explicitly said they want oracle health monitoring use cases.",
+          "demo_moment": "Replay the March 2023 USDC depeg: show the dissent score spiking 3 minutes BEFORE the price crash, creating an automated circuit-breaker. Judges will remember this.",
+          "core_tech": [
+            "Chainlink Runtime Environment (CRE)",
+            "Chainlink Functions (JS job fetching 5+ sources)",
+            "Chainlink Automation (auto-trigger on dissent threshold)",
+            "Space and Time (store historical dissent logs -- Scott Dykstra's product)",
+            "Solidity (DissentsLedger contract)",
+            "Tenderly Virtual TestNet",
+            "React (live dissent dashboard)"
+          ],
+          "multi_service_note": "Uses CRE + Functions + Automation + Space and Time = 4 Chainlink ecosystem services. Confirmed winner pattern AND direct judge appeal (Space and Time).",
+          "defi_angle": "Frame as DeFi risk infrastructure: 'Any lending protocol can subscribe to SENTINEL Dissent Alerts to pause liquidations during oracle manipulation events.' This gives judges a clear DeFi use case since that's where Chainlink historically excels.",
+          "mvp_hours": 18,
+          "risk": "low",
+          "recommended": true,
+          "build_order": 1,
+          "demo_data": "Use historical Coingecko API + on-chain event replay for the demo. No live data needed."
+        },
+        {
+          "id": "ccip-truth-sync",
+          "title": "CCIP Cross-Chain Truth Propagation",
+          "hook": "A fact attested on Ethereum shouldn't need re-verification on every chain.",
+          "concept": "When SENTINEL attests a claim on Ethereum, a CCIP message auto-propagates the attestation to Polygon, Arbitrum, and Base. Each destination chain stores the attestation with the source chain proof. Any dApp on any chain can verify the claim without re-running SENTINEL.",
+          "why_different": "Uses CCIP specifically (underused, Chainlink wants more CCIP demos) for a non-financial use case. Most CCIP demos are token bridges.",
+          "demo_moment": "Attest 'Ethereum block 19M mined on date X' on Ethereum, watch it appear on Polygon and Arbitrum Explorer within 30 seconds.",
+          "core_tech": [
+            "Chainlink CCIP",
+            "Solidity (source + destination contracts)",
+            "React",
+            "Etherscan/Polygonscan for demo"
+          ],
+          "mvp_hours": 16,
+          "risk": "medium",
+          "recommended": false,
+          "build_order": 2,
+          "demo_data": "Testnet only. CCIP testnet is well-documented."
+        }
+      ]
+    },
+    "pl-genesis": {
+      "judge_profile": "Protocol Labs researchers, Filecoin Foundation, and IPFS/libp2p core team. CONFIRMED judging criteria per track: Privacy/Sovereign Internet track judges want 'clever architecture, clean implementation, real contribution to sovereign internet.' AI/Open Infrastructure judges want 'something useful, clear link between AI and open infra, strong technical decisions.' Open Data track judges want the 'this could be huge' moment + 'strong use of open storage or distributed infra' + 'clean UX for researchers.' PL has a specific culture: long-term, open-source, mission-driven. NOT DeFi people.",
+      "judging_criteria": {
+        "AI_open_infra_useful_and_clear_link": 30,
+        "privacy_clever_architecture": 25,
+        "open_data_wow_moment_plus_UX": 25,
+        "open_source_ethos": 20
+      },
+      "prize_note": "CONFIRMED: $50K Fresh Code + $50K Existing Code + sponsor bounties = $100K+ total. Note: user data shows $150K -- likely includes additional sponsor bounties not listed publicly.",
+      "underserved_tracks": [
+        "FVM smart contracts + AI inference (confirmed underserved)",
+        "IPFS DAG-JSON content graph (not just file storage)",
+        "Open Data track (researchers are underserved market)",
+        "libp2p pubsub for real-time verification"
+      ],
+      "generic_to_avoid": [
+        "Decentralized storage app that just uploads files to IPFS",
+        "NFT storage on IPFS (extremely saturated)",
+        "AI model training on decentralized data (vague, hard to demo)",
+        "Privacy-preserving data marketplace (idea is good but everyone pitches this)",
+        "Anything that doesn't use Filecoin at all -- PL will notice"
+      ],
+      "key_judge_insight": "CONFIRMED: Open Data track judges specifically want the 'this could be huge' moment AND clean UX for researchers. This is the underserved track -- build for researchers and scientists as users, not for crypto users.",
+      "long_term_upside": "Top teams get invited to Founders Forge -- PL's VC funnel. Worth more than the cash prize long-term.",
+      "ideas": [
+        {
+          "id": "epistemic-commons",
+          "title": "Epistemic Commons",
+          "hook": "What if knowledge itself was content-addressed? Every fact has a CID. Truth is a graph, not a document.",
+          "concept": "Build a knowledge graph where each claim is a DAG-JSON object stored on IPFS. The CID is the claim's immutable identity. Claims cite other claims (linking to their CIDs as sources). AI agents traverse this graph to compute a 'confidence score' for any claim: count independent citation paths, penalize circular citations. FVM smart contract manages 'citation staking' -- you can stake FIL on a claim's accuracy. If the claim is later disputed and overturned, stakers lose. This creates economic truth anchoring.",
+          "why_different": "Uses content addressing as the IDENTITY of knowledge (not storage). Uses FVM for economic staking (requires Filecoin). Uses IPFS graph traversal for AI verification. Every component is native to PL stack. No other team will have all three.",
+          "demo_moment": "Submit a contested historical claim. Watch the AI traverse the citation graph, find 3 independent sources (green) and 2 contradicting sources (red). Show the confidence score updating live as you add/remove citations.",
+          "core_tech": [
+            "IPFS (DAG-JSON)",
+            "Helia or kubo",
+            "FVM (Solidity on Filecoin EVM)",
+            "React graph visualization (vis.js or D3)",
+            "SENTINEL core for claim scoring"
+          ],
+          "mvp_hours": 36,
+          "risk": "medium",
+          "recommended": true,
+          "build_order": 1,
+          "founders_forge_pitch": "The long-term vision: Epistemic Commons becomes the citation layer of the internet. Every AI training dataset can link claims back to primary IPFS sources. Hallucinations can be traced and disputed on-chain.",
+          "demo_data": "Pre-populate 20 real historical facts with citations. Use Wikipedia sources as CIDs. This makes the demo feel real."
+        },
+        {
+          "id": "filecoin-knowledge-market",
+          "title": "Storage as Confidence Signal",
+          "hook": "If independent parties pay to preserve information, that's a stronger truth signal than any AI.",
+          "concept": "Aggregate Filecoin storage deal history for content CIDs. Build a 'Storage Confidence Score' API: how many unique storage providers, over how long, for what CID? A fact stored by 100 independent providers over 3 years scores higher than one stored by 1 provider for 1 month. SENTINEL uses this as one of its evidence signals.",
+          "why_different": "Uses Filecoin's retrieval market data in a non-obvious way. Economic signals (who paid to store what) as truth proxies. This is novel and very PL-native.",
+          "demo_moment": "Compare storage confidence scores for a Wikipedia article vs a known fake news article. Show the correlation.",
+          "core_tech": [
+            "Filecoin storage deal API",
+            "IPFS CID resolution",
+            "React (simple comparison UI)",
+            "Chart.js for visualization"
+          ],
+          "mvp_hours": 16,
+          "risk": "low",
+          "recommended": false,
+          "build_order": 2,
+          "note": "Simpler to build but less technically impressive. Use as fallback if Epistemic Commons is too ambitious."
+        }
+      ]
+    },
+    "monolith-seeker": {
+      "judge_profile": "Solana Mobile team (RadiantsDAO organizers), Solana Foundation mobile team. CONFIRMED requirement: must use Solana Mobile Stack (SMS) + Mobile Wallet Adapter. Past winners LootGo ($25K) and Tap ($30K) both had deep SMS integration AND mobile-native functionality that couldn't work as a website. The hackathon explicitly builds toward Seeker dApp Store placement -- the prize is partly about discovering apps for the Seeker launch.",
+      "judging_criteria": {
+        "solana_mobile_stack_integration": 40,
+        "mobile_native_functionality": 30,
+        "seeker_dapp_store_readiness": 15,
+        "real_world_utility": 15
+      },
+      "underserved_tracks": [
+        "Hardware-backed attestation (Seeker seed vault -- TPM-level signing)",
+        "Location + sensor-driven dApps",
+        "Camera/media integration with on-chain data",
+        "Offline-first with sync"
+      ],
+      "generic_to_avoid": [
+        "Token wallet / portfolio tracker (done to death)",
+        "NFT gallery for Seeker",
+        "Mobile version of a DeFi protocol",
+        "Web app wrapped in WebView (judges test this)",
+        "Social token app with no real functionality"
+      ],
+      "key_judge_insight": "CONFIRMED from winners: Tap won $30K for being a simple SOL+USDC cash app (utility, not DeFi complexity). LootGo won $25K for Seeker dApp Store readiness. Commerce/payments/remittances angle wins over general DeFi. The Field Attestation Network should have a PAYMENTS hook: 'Pay a journalist to submit an attestation, creating a truth marketplace.'",
+      "solana_mobile_pattern": "Winners built UTILITY apps that regular phone users open daily. Not crypto-first. 'Does this make sense on a phone specifically?' is the test. Tap could have been any mobile payment app. LootGo was a loot-box game. Neither was a DeFi dashboard.",
+      "ideas": [
+        {
+          "id": "field-attestation",
+          "title": "Field Attestation Network",
+          "hook": "Your Seeker phone is now a notary. Prove you were somewhere, saw something, at a specific time -- with hardware-level cryptographic proof.",
+          "concept": "App uses Seeker's hardware-backed seed vault to sign attestations: photo + GPS coordinates + timestamp + user note. The hardware signature proves the data came from this specific device. Attestation is a Solana transaction. Result: a cryptographically-provable record of real-world events that is Sybil-resistant because the hardware key cannot be forged in software.",
+          "why_different": "Uses the seed vault for physical-world attestation, not just DeFi signing. The novelty is hardware-grounded truth -- something only possible on Seeker. No other mobile platform has this.",
+          "demo_moment": "Open the app, take a photo of the hackathon venue, submit. Show the signed Solana transaction on Explorer with GPS coordinates embedded. The EXIF + hardware sig + on-chain record is the demo.",
+          "core_tech": [
+            "Expo / React Native",
+            "Solana Mobile Wallet Adapter",
+            "expo-camera",
+            "expo-location",
+            "Solana web3.js",
+            "@solana/spl-token (optional)"
+          ],
+          "mvp_hours": 20,
+          "risk": "medium",
+          "recommended": true,
+          "build_order": 1,
+          "hardware_note": "If no physical Seeker device: demo on emulator + note 'hardware attestation is cryptographically stronger on physical device'. Judges understand prototypes.",
+          "use_cases_to_mention": [
+            "Journalism: prove you were at the scene",
+            "Scientific field data: immutable measurements",
+            "Insurance: timestamped damage evidence",
+            "Governance: proof of physical participation"
+          ]
+        }
+      ]
+    },
+    "starknet-redefine": {
+      "judge_profile": "CONFIRMED judges: StarkWare engineers, Atomiq, Troves/Endurfi, Chipi Pay, OpenZeppelin. Cairo language team examines circuits directly. Prize structure confirmed: Privacy track $9,675 + Bitcoin track $9,675 + Open track $2,150 = $21.5k. BONUS: winners can apply for seed grants up to $25K from Starknet Foundation post-hackathon -- this doubles the potential payout. Submit to DoraHacks platform with GitHub + demo video (\u22643 min) + Starknet deployment link.",
+      "judging_criteria": {
+        "cairo_technical_quality": 35,
+        "bitcoin_or_privacy_track_alignment": 35,
+        "demo_and_deployment": 15,
+        "novelty": 15
+      },
+      "post_hackathon_upside": "Starknet Foundation seed grants up to $25K for projects that continue growing. Total potential = $21.5k prize + $25k grant = $46.5k if project continues.",
+      "underserved_tracks": [
+        "Non-financial ZK proofs (Privacy track $9.7k -- most competitors build DeFi)",
+        "zkML (zero-knowledge machine learning -- almost no one attempts this)",
+        "Bitcoin state verification on Starknet"
+      ],
+      "generic_to_avoid": [
+        "AMM or DeFi protocol on Starknet (extremely saturated)",
+        "NFT marketplace on Starknet",
+        "Cross-chain token bridge",
+        "Gaming with no ZK benefit",
+        "Privacy-preserving payments (Tornado Cash clone territory)"
+      ],
+      "key_judge_insight": "CONFIRMED: Cairo-based projects should use Poseidon hashing and STARK-specific optimizations. Judges are Cairo language engineers who care about proof efficiency. A simple but correctly optimized Cairo circuit beats a complex but naive one.",
+      "ideas": [
+        {
+          "id": "zksentinel",
+          "title": "zkSentinel: Verifiable AI Inference",
+          "hook": "Prove that SENTINEL's AI reached THIS conclusion from THIS input, without revealing the input.",
+          "concept": "Cairo circuit that implements a simplified version of SENTINEL's scoring function (weighted average of N evidence signals). Given a private input (the raw evidence), the circuit outputs a credibility score AND a proof that the computation was done correctly. Use case: a journalist can prove 'SENTINEL rated this claim as 94% credible based on 7 sources' without revealing which 7 sources. The proof is on Starknet.",
+          "why_different": "zkML (zero-knowledge machine learning inference) is real but almost never demoed at hackathons because it's hard. Even a simplified 'verifiable scoring function' is impressive. Starkware engineers will be genuinely excited.",
+          "demo_moment": "Submit a sensitive claim (e.g., 'political figure X did Y'). Show the credibility score. Show the Starknet transaction with the proof. Show that the score CANNOT be reverse-engineered to reveal the sources.",
+          "core_tech": [
+            "Cairo 1.0",
+            "Starknet Foundry (testing)",
+            "Scarb (build tool)",
+            "starknet.js",
+            "React frontend"
+          ],
+          "mvp_hours": 24,
+          "risk": "high",
+          "recommended": true,
+          "build_order": 1,
+          "risk_mitigation": "Scope the Cairo circuit to: 3 inputs (evidence signals, each 0-100), weighted average formula, range proof that output is 0-100. This is ~50 lines of Cairo. Ship this minimal version and frame it as 'the foundation for full zkML inference.'",
+          "cairo_note": "If Cairo is unfamiliar: spend 4 hours on Cairo Book chapters 1-3 first. The syntax is Rust-like. The minimal circuit described above can be written in a day."
+        },
+        {
+          "id": "bitcoin-inscription-verifier",
+          "title": "Bitcoin Inscription Truth Anchor",
+          "hook": "Bitcoin Ordinals are permanent. Use Starknet to generate privacy-preserving proofs about what inscriptions say.",
+          "concept": "Cairo circuit: given a Bitcoin inscription content (private), prove it matches a committed hash (public) without revealing the content. Use case: prove a Bitcoin inscription contains a signed document from entity X without revealing the document text. Starknet contract stores the commitment; a separate verifier can check claims against it.",
+          "why_different": "Bitcoin + Starknet is the track this hackathon was literally designed for (Re{define} is about Bitcoin's future on Starknet). Uses inscriptions which are current and trendy.",
+          "demo_moment": "Inscribe a 'secret fact' on Bitcoin testnet. Commit the hash on Starknet. Later: prove the inscription contains the fact without revealing it. Show both the Bitcoin testnet tx and the Starknet proof.",
+          "core_tech": [
+            "Cairo 1.0",
+            "Bitcoin testnet (Ordinals API)",
+            "Starknet",
+            "React"
+          ],
+          "mvp_hours": 20,
+          "risk": "medium",
+          "recommended": false,
+          "build_order": 2
+        }
+      ]
+    },
+    "ai-trading-agents-erc8004": {
+      "judge_profile": "lablab.ai community + ERC-8004 standard contributors. CONFIRMED lablab.ai judging criteria from their rulebook: (1) Application of Technology 35% -- how effectively models are integrated, (2) Business Value 30% -- practical impact, market fit, (3) Presentation 20% -- clarity of demo, (4) Originality 15% -- creativity. Note Business Value is 30% -- higher than most assume. Recent winners: RiskWise (supply chain risk analysis), cuOptIQ (route optimization with NVIDIA NeMo) -- ALL domain-specific, not general. Winning pattern: narrow domain + measurable business metric improvement.",
+      "judging_criteria": {
+        "application_of_technology": 35,
+        "business_value": 30,
+        "presentation": 20,
+        "originality": 15
+      },
+      "business_value_note": "Business Value = 30%. The Agent Accountability Protocol MUST be pitched with a clear business case: 'DeFi protocols lose $X million/year to rogue AI agents. AAP prevents this. Target market: any protocol using ERC-8004 agents for treasury management.'",
+      "underserved_tracks": [
+        "Agent-to-agent trust mechanisms",
+        "Accountability and auditability for AI agents",
+        "Agent permission delegation (the core ERC-8004 feature)",
+        "Human oversight mechanisms"
+      ],
+      "generic_to_avoid": [
+        "AI bot that autonomously buys/sells tokens",
+        "Portfolio optimizer using AI signals",
+        "Sentiment analysis trading bot",
+        "Yield farming optimizer with AI",
+        "Copy trading platform with AI"
+      ],
+      "key_judge_insight": "ERC-8004 is about DELEGATION and PERMISSIONS between agents. Most teams will just build another trading agent and tag ERC-8004 in the title. The teams that win will build FOR the permission delegation mechanism itself.",
+      "timing_note": "Starts Mar 9, ends Mar 22. Register Mar 9. Build Mar 16-22 after PL Genesis sprint. Budget 20 hours.",
+      "ideas": [
+        {
+          "id": "agent-accountability",
+          "title": "Agent Accountability Protocol (AAP)",
+          "hook": "Don't build a trading agent. Build the trust layer every trading agent needs.",
+          "concept": "Smart contract middleware for ERC-8004 agents: before any agent executes a transaction, it must submit a reasoning commitment (keccak256 hash of its decision rationale) to the ledger. After execution, it publishes the actual rationale. If the published rationale doesn't match the commitment, the agent is flagged and its delegated permissions are revoked. SENTINEL verifies the quality of the rationale off-chain.",
+          "why_different": "You are building the INFRASTRUCTURE that all other ERC-8004 trading agents need. Judges will be looking at 40 trading bots -- this is the one that goes meta. The framing is: 'we're not building an agent, we're building the accountability layer for the entire ERC-8004 ecosystem.'",
+          "demo_moment": "Show two agents: an honest one (rationale matches commitment, executes fine) and a deceptive one (rationale doesn't match, gets auto-slashed and permissions revoked). The contrast is the demo.",
+          "core_tech": [
+            "Solidity (AccountabilityLedger contract)",
+            "ERC-8004 interface",
+            "SENTINEL core (rationale quality scorer)",
+            "React dashboard showing agent audit trail"
+          ],
+          "mvp_hours": 20,
+          "risk": "low",
+          "recommended": true,
+          "build_order": 1,
+          "reuses": [
+            "on-chain-commitment",
+            "sentinel-core",
+            "react-shell"
+          ]
+        }
+      ]
+    },
+    "stablehacks-2026": {
+      "judge_profile": "Solana Foundation, Circle (USDC), institutional DeFi teams. These are finance-first, not AI-first. They care about: compliance, institutional-grade reliability, real use cases in TradFi-adjacent scenarios. Theme fit for TRUTHBOUND IV is low (5/10).",
+      "judging_criteria": {
+        "financial_viability": 35,
+        "solana_technical_depth": 30,
+        "compliance_awareness": 20,
+        "demo": 15
+      },
+      "underserved_tracks": [
+        "Compliance layer for stablecoins",
+        "Real-world asset verification",
+        "Cross-border payment transparency"
+      ],
+      "generic_to_avoid": [
+        "Another AMM or DEX with stablecoin pairs",
+        "Yield protocol for stablecoins",
+        "Generic stablecoin wallet"
+      ],
+      "key_judge_insight": "This is low theme fit for TRUTHBOUND IV. Only pursue if you have bandwidth after Mar 16. The angle: SENTINEL as a compliance oracle that verifies stablecoin issuer claims (reserve attestations, regulatory status).",
+      "ideas": [
+        {
+          "id": "sentinel-reserve-oracle",
+          "title": "SENTINEL Reserve Attestation Oracle",
+          "hook": "Stablecoin issuers make reserve claims. SENTINEL makes them verifiable.",
+          "concept": "Build a Chainlink-powered oracle that runs SENTINEL on stablecoin issuer reserve attestation documents (PDFs from auditors). Output: on-chain credibility score for each reserve claim. DeFi protocols can consume this to adjust collateral ratios dynamically.",
+          "why_different": "Connects TRUTHBOUND IV directly to institutional finance. Real problem (Terra/LUNA showed why reserve verification matters). Uses both Chainlink and SENTINEL.",
+          "demo_moment": "Run SENTINEL on a real USDC reserve attestation PDF. Show the credibility score. Compare to a historical time when Circle's attestations were delayed/questionable.",
+          "core_tech": [
+            "Chainlink Functions",
+            "SENTINEL core",
+            "Solidity",
+            "React"
+          ],
+          "mvp_hours": 16,
+          "risk": "low",
+          "recommended": true,
+          "reuses": [
+            "sentinel-core",
+            "chainlink-functions-job",
+            "react-shell"
+          ]
+        }
+      ]
+    }
+  },
+  "strategic_sprint_plan": {
+    "description": "Given March 4, 2026 as today, here is the optimal build sequence for maximum wins",
+    "phases": [
+      {
+        "phase": 0,
+        "dates": "Mar 4 (today)",
+        "label": "Foundation Sprint",
+        "goal": "Build shared components that unlock all events",
+        "tasks": [
+          "Build sentinel-core (8 hours): REST API that takes a claim string, returns credibility score + evidence summary",
+          "Build on-chain-commitment contract (3 hours): Solidity, single function, deploy to Sepolia",
+          "Build react-shell (4 hours): wallet connect + claim input + score visualization"
+        ],
+        "exit_criteria": "sentinel-core returns a JSON response for any input string. Contract is deployed on Sepolia testnet.",
+        "total_hours": 15,
+        "start_date": "2026-03-04",
+        "end_date": "2026-03-04"
+      },
+      {
+        "phase": 1,
+        "dates": "Mar 5-7",
+        "label": "Chainlink Sprint",
+        "goal": "Ship Oracle Dissent Protocol for Chainlink Convergence (Mar 8)",
+        "tasks": [
+          "Write Chainlink Functions JS job (4 hours): fetch 5 sources, calculate dissent score",
+          "Add DissentsLedger Solidity contract (4 hours): store alerts, export integrity score",
+          "Build dissent dashboard UI (4 hours): live score + historical alerts table",
+          "Record historical USDC depeg replay demo (2 hours): use historical API data",
+          "Write README + record demo video (2 hours)"
+        ],
+        "exit_criteria": "Deployed on testnet. Demo video shows dissent spike before USDC depeg.",
+        "total_hours": 16,
+        "note": "Submit to Chainlink Convergence on Mar 7 (1 day early = safer)",
+        "start_date": "2026-03-05",
+        "end_date": "2026-03-07"
+      },
+      {
+        "phase": 2,
+        "dates": "Mar 7-9",
+        "label": "Starknet + Seeker Parallel Sprint",
+        "goal": "Ship for Starknet Re{define} (Mar 10) and Monolith/Seeker (Mar 9)",
+        "tasks": [
+          "PARALLEL: Starknet - Write zkSentinel Cairo circuit (8 hours)",
+          "PARALLEL: Seeker - Build Field Attestation mobile app (8 hours)",
+          "Starknet: Deploy to Starknet testnet, wire to React frontend (4 hours)",
+          "Seeker: Wire GPS + camera to Solana transaction signing (4 hours)"
+        ],
+        "exit_criteria": "Both deployed on testnet. Both have demo video.",
+        "total_hours": 24,
+        "note": "These can run in parallel if you have energy. If bandwidth is limited, prioritize Seeker (Mar 9) over Starknet (Mar 10).",
+        "start_date": "2026-03-07",
+        "end_date": "2026-03-09"
+      },
+      {
+        "phase": 3,
+        "dates": "Mar 10-16",
+        "label": "PL Genesis Sprint (The Big One)",
+        "goal": "Ship Epistemic Commons for PL Genesis (Mar 16). This is the highest-value event.",
+        "tasks": [
+          "Build IPFS DAG-JSON claim graph (8 hours)",
+          "Build FVM citation staking contract (8 hours)",
+          "Build AI graph traversal (6 hours): depth-first, confidence scoring, cycle detection",
+          "Build graph visualization UI (6 hours): D3 or vis.js, node colors by confidence",
+          "Pre-populate 20 real facts as demo data (2 hours)",
+          "Write README + Founders Forge vision pitch (4 hours)"
+        ],
+        "exit_criteria": "Claims graph is traversable. FVM contract deployed on Filecoin testnet. Demo shows confidence scoring in real-time.",
+        "total_hours": 34,
+        "note": "6 days is enough time for this. This is the project to spend the most energy on.",
+        "start_date": "2026-03-10",
+        "end_date": "2026-03-16"
+      },
+      {
+        "phase": 4,
+        "dates": "Mar 16-22",
+        "label": "AI Agents ERC-8004 Sprint",
+        "goal": "Ship Agent Accountability Protocol for lablab.ai (Mar 22)",
+        "tasks": [
+          "Build AccountabilityLedger contract (6 hours)",
+          "Build two demo agents (honest + deceptive) (6 hours)",
+          "Wire SENTINEL rationale quality scoring (4 hours: reuse sentinel-core)",
+          "Build agent audit trail dashboard (4 hours)"
+        ],
+        "exit_criteria": "Both agents demo correctly. Deceptive agent gets slashed in live demo.",
+        "total_hours": 20,
+        "note": "Reuses sentinel-core and on-chain-commitment. Actual new build: ~13 hours.",
+        "start_date": "2026-03-16",
+        "end_date": "2026-03-22"
+      }
+    ],
+    "total_hours_estimate": 109,
+    "available_hours_estimate": "~13 days * 8h/day = 104h. Tight but feasible if focused.",
+    "critical_path": "sentinel-core MUST be built first. Everything else depends on it."
+  }
+}

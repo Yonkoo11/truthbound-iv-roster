@@ -1,0 +1,28 @@
+# Environment
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+*.egg-info/
+
+# Data (DB is local — not shared)
+data/roster.db
+data/*.lock
+data/.roster.lock
+data/.heartbeat
+data/.source_health.json
+data/backups/
+data/export.csv
+data/export.json
+
+# Logs
+logs/
+
+# Streamlit
+.streamlit/
+
+# macOS
+.DS_Store

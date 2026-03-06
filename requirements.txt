@@ -1,0 +1,16 @@
+# Python 3.9+ required
+# Core CLI
+rich==14.3.3
+tabulate==0.10.0
+
+# Dashboard
+streamlit==1.55.0
+pandas==2.3.3
+plotly==6.6.0
+
+# Scout sources
+requests==2.32.5
+beautifulsoup4==4.14.3
+
+# SQLite is stdlib — no extra dep needed
+# python-dotenv not required — .env loading is done manually in notify.py
