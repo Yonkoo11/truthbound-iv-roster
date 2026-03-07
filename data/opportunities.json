@@ -9,11 +9,17 @@
     "prize_note": "$100k+ across tracks",
     "theme_fit": 9,
     "status": "active",
-    "tracks": ["AI agents", "oracles", "DeFi", "truth layer"],
+    "tracks": [
+      "AI agents",
+      "oracles",
+      "DeFi",
+      "truth layer"
+    ],
     "angle": "SENTINEL as a Chainlink Functions-powered truth verification agent. On-chain fact attestation using oracle feeds. Perfect native fit.",
     "url": "https://chain.link/hackathon",
     "resubmittable": true,
-    "notes": "Mar 8 deadline. AI agents track = direct SENTINEL fit. Chainlink oracles are core to truth layer architecture."
+    "notes": "Mar 8 deadline. AI agents track = direct SENTINEL fit. Chainlink oracles are core to truth layer architecture.",
+    "submission_url": "https://airtable.com/appAbClub49vmpqMe/pagE8dOPtGqSLHClz/form"
   },
   {
     "id": "pl-genesis",
@@ -25,11 +31,17 @@
     "prize_note": "$150k+ with Founders Forge pathway (VC funnel)",
     "theme_fit": 10,
     "status": "active",
-    "tracks": ["privacy", "AI", "governance", "open source"],
+    "tracks": [
+      "privacy",
+      "AI",
+      "governance",
+      "open source"
+    ],
     "angle": "TRUTHBOUND IV as privacy-preserving AI truth layer. Governance + verifiability = perfect PL narrative. Top teams get Founders Forge (seed funding).",
-    "url": "https://protocol.ai/hackathon",
+    "url": "https://www.plgenesis.com/",
     "resubmittable": true,
-    "notes": "Hacking ends Mar 16. Top finalists get Founders Forge accelerator invite with real VC. Highest long-term upside of all events."
+    "notes": "Hacking ends Mar 16. Top finalists get Founders Forge accelerator invite with real VC. Highest long-term upside of all events.",
+    "submission_url": "https://docs.google.com/forms/d/e/1FAIpQLSfIPJBWJJXnp3TK7sKqFbkivD4vF1EMaLMNFkRmfDHV8Rn4RA/viewform"
   },
   {
     "id": "monolith-seeker",
@@ -41,11 +53,17 @@
     "prize_note": "$125k+ total, mobile dApps for Seeker device",
     "theme_fit": 7,
     "status": "active",
-    "tracks": ["mobile", "Solana", "dApps", "RadiantsDAO"],
+    "tracks": [
+      "mobile",
+      "Solana",
+      "dApps",
+      "RadiantsDAO"
+    ],
     "angle": "SENTINEL mobile companion app -- privacy-first truth agent on the Seeker device. Solana Mobile SDK + on-chain verification.",
-    "url": "",
+    "url": "https://align.nexus/hackathon/monolith-seeker",
     "resubmittable": true,
-    "notes": "Mar 9. Solana Mobile/RadiantsDAO. Mobile-native SENTINEL build -- can reuse core agent logic with React Native / Solana Mobile SDK wrapper."
+    "notes": "Mar 9. Solana Mobile/RadiantsDAO. Mobile-native SENTINEL build -- can reuse core agent logic with React Native / Solana Mobile SDK wrapper.",
+    "submission_url": "https://solanamobile.com/hackathon"
   },
   {
     "id": "ai-trading-agents-erc8004",
@@ -57,11 +75,17 @@
     "prize_note": "$50k USDC",
     "theme_fit": 8,
     "status": "active",
-    "tracks": ["AI agents", "DeFi", "trustless finance", "ERC-8004"],
+    "tracks": [
+      "AI agents",
+      "DeFi",
+      "trustless finance",
+      "ERC-8004"
+    ],
     "angle": "SENTINEL as a trustless AI financial verification agent using ERC-8004 standard. Truth layer for on-chain agent actions -- prevents hallucinated trades.",
-    "url": "https://lablab.ai",
+    "url": "https://lablab.ai/ai-hackathons/ai-trading-agents-with-erc-8004",
     "resubmittable": true,
-    "notes": "Starts Mar 9, ends Mar 22 (lablab.ai). Trustless AI financial agents = direct SENTINEL use case. Register by Mar 9."
+    "notes": "Starts Mar 9, ends Mar 22 (lablab.ai). Trustless AI financial agents = direct SENTINEL use case. Register by Mar 9.",
+    "submission_url": "https://lablab.ai/ai-hackathons/ai-trading-agents-with-erc-8004"
   },
   {
     "id": "starknet-redefine",
@@ -73,7 +97,12 @@
     "prize_note": "$21.5k",
     "theme_fit": 8,
     "status": "active",
-    "tracks": ["Bitcoin", "privacy", "Starknet", "ZK proofs"],
+    "tracks": [
+      "Bitcoin",
+      "privacy",
+      "Starknet",
+      "ZK proofs"
+    ],
     "angle": "SENTINEL truth layer on Starknet using Cairo + ZK proofs for privacy-preserving verification. Bitcoin settlement layer tie-in via Starknet Bitcoin bridge.",
     "url": "",
     "resubmittable": true,
@@ -89,11 +118,17 @@
     "prize_note": "$202k effective total prizes",
     "theme_fit": 5,
     "status": "active",
-    "tracks": ["stablecoins", "institutional", "Solana", "DeFi"],
+    "tracks": [
+      "stablecoins",
+      "institutional",
+      "Solana",
+      "DeFi"
+    ],
     "angle": "Truth-verified stablecoin oracle feed using SENTINEL. Weak fit but huge prize pool. Only pursue if Chainlink/PL bandwidth allows.",
-    "url": "",
+    "url": "https://dorahacks.io/hackathon/stablehacks/detail",
     "resubmittable": true,
-    "notes": "Starts Mar 13, ends Mar 22. Lower theme fit but massive prize. Institutional stablecoins -- SENTINEL oracle verification angle is a stretch."
+    "notes": "Starts Mar 13, ends Mar 22. Lower theme fit but massive prize. Institutional stablecoins -- SENTINEL oracle verification angle is a stretch.",
+    "submission_url": "https://dorahacks.io/hackathon/stablehacks/buidl"
   },
   {
     "id": "avalanche-retro9000",
@@ -105,11 +140,17 @@
     "prize_note": "Retroactive grant, amount TBD based on activity",
     "theme_fit": 6,
     "status": "active",
-    "tracks": ["infrastructure", "C-Chain", "Avalanche", "DeFi"],
+    "tracks": [
+      "infrastructure",
+      "C-Chain",
+      "Avalanche",
+      "DeFi"
+    ],
     "angle": "Deploy SENTINEL truth layer on Avalanche C-Chain. Retro9000 rewards usage -- deploy early, generate transactions before Mar 18 snapshot.",
-    "url": "https://avax.network/retro9000",
+    "url": "https://retro9000.avax.network/round-rules",
     "resubmittable": true,
-    "notes": "Mar 18 snapshot. Retroactive -- must have on-chain activity BEFORE snapshot. Deploy ASAP to qualify. Infra BUILD / Lybra BUILD(AZ) tracks."
+    "notes": "Mar 18 snapshot. Retroactive -- must have on-chain activity BEFORE snapshot. Deploy ASAP to qualify. Infra BUILD / Lybra BUILD(AZ) tracks.",
+    "submission_url": "https://retro9000.avax.network/projects"
   },
   {
     "id": "polkadot-solidity",
@@ -121,11 +162,17 @@
     "prize_note": "$30k",
     "theme_fit": 5,
     "status": "active",
-    "tracks": ["Polkadot", "Solidity", "cross-chain", "EVM"],
+    "tracks": [
+      "Polkadot",
+      "Solidity",
+      "cross-chain",
+      "EVM"
+    ],
     "angle": "SENTINEL as a cross-chain truth oracle using Polkadot's interoperability. Solidity contracts on Moonbeam/AssetHub.",
-    "url": "",
+    "url": "https://dorahacks.io/hackathon/polkadot-solidity-hackathon/detail",
     "resubmittable": true,
-    "notes": "Mar 20. Polkadot * feb 15 from whiteboard may reference a past phase. Lower priority but decent prize. Pursue if bandwidth allows after must-dos."
+    "notes": "Mar 20. Polkadot * feb 15 from whiteboard may reference a past phase. Lower priority but decent prize. Pursue if bandwidth allows after must-dos.",
+    "submission_url": "https://dorahacks.io/hackathon/polkadot-solidity-hackathon/buidl"
   },
   {
     "id": "pacifica",
@@ -139,9 +186,10 @@
     "status": "active",
     "tracks": [],
     "angle": "SENTINEL core build. Details unclear -- confirm tracks before investing time.",
-    "url": "",
+    "url": "https://pacifica.gitbook.io/closed-alpha/hackathon",
     "resubmittable": true,
-    "notes": "Mid-March (~Mar 15). Listed on whiteboard as 'Pacifica'. Low prize, need to verify event details before prioritizing."
+    "notes": "Mid-March (~Mar 15). Listed on whiteboard as 'Pacifica'. Low prize, need to verify event details before prioritizing.",
+    "submission_url": "https://docs.google.com/forms/d/e/1FAIpQLSfzW7x_1Uh0niU3BQY6MHCeN_Bb0kTOi0hR_c40ISNuBPlVEg/viewform"
   },
   {
     "id": "mezo-hackathon",
@@ -153,7 +201,12 @@
     "prize_note": "$30-40k range",
     "theme_fit": 7,
     "status": "active",
-    "tracks": ["Bitcoin", "DeFi", "programmable Bitcoin", "MEZO"],
+    "tracks": [
+      "Bitcoin",
+      "DeFi",
+      "programmable Bitcoin",
+      "MEZO"
+    ],
     "angle": "SENTINEL truth agent on MEZO -- Bitcoin-native verification layer. Privacy + Bitcoin = core TRUTHBOUND narrative.",
     "url": "",
     "resubmittable": true,
@@ -169,7 +222,12 @@
     "prize_note": "$100k total rolling Q1-Q2 2026",
     "theme_fit": 5,
     "status": "active",
-    "tracks": ["indexer", "data", "API", "infrastructure"],
+    "tracks": [
+      "indexer",
+      "data",
+      "API",
+      "infrastructure"
+    ],
     "angle": "Build a truth-verified data indexer using SENTINEL + Liquify API. Moderate fit but large ongoing prize pool.",
     "url": "",
     "resubmittable": false,
@@ -185,11 +243,16 @@
     "prize_note": "Prize TBD, prestige event",
     "theme_fit": 7,
     "status": "active",
-    "tracks": ["Bitcoin", "privacy", "open source"],
+    "tracks": [
+      "Bitcoin",
+      "privacy",
+      "open source"
+    ],
     "angle": "SENTINEL as Bitcoin-native truth layer. MIT prestige + Bitcoin community = long-term network value even without cash prize.",
-    "url": "",
+    "url": "https://mitbitcoinexpo.org/",
     "resubmittable": true,
-    "notes": "~Apr 10-12. Prestige over cash. Good for network building and MEZO/Bitcoin narrative consistency."
+    "notes": "~Apr 10-12. Prestige over cash. Good for network building and MEZO/Bitcoin narrative consistency.",
+    "submission_url": "https://docs.google.com/forms/d/e/1FAIpQLSdeA7jE3-SMOzXGRoSEl-kH2QY9RDaZb-x2QnbK2DXCqxT6gg/viewform"
   },
   {
     "id": "brinc-fair-data",
@@ -201,11 +264,17 @@
     "prize_note": "Accelerator -- funding + mentorship",
     "theme_fit": 7,
     "status": "active",
-    "tracks": ["data", "Web3", "privacy", "fair data"],
+    "tracks": [
+      "data",
+      "Web3",
+      "privacy",
+      "fair data"
+    ],
     "angle": "TRUTHBOUND IV as FAIR data verification platform. Privacy + truth + Web3 data = strong narrative fit for Brinc.",
-    "url": "",
+    "url": "https://www.brinc.io/fair-data-web3-accelerator/",
     "resubmittable": false,
-    "notes": "Open now, rolling. Accelerator format = VC pathway. Apply after core prototype is ready (post Mar 16 PL Genesis push)."
+    "notes": "Open now, rolling. Accelerator format = VC pathway. Apply after core prototype is ready (post Mar 16 PL Genesis push).",
+    "submission_url": "https://www.brinc.io/fair-data-web3-accelerator/"
   },
   {
     "id": "base-ecosystem",
@@ -217,7 +286,12 @@
     "prize_note": "Grants, amount varies",
     "theme_fit": 6,
     "status": "active",
-    "tracks": ["Base", "L2", "DeFi", "AI"],
+    "tracks": [
+      "Base",
+      "L2",
+      "DeFi",
+      "AI"
+    ],
     "angle": "Deploy SENTINEL on Base. Ongoing ecosystem grants for active builders. 'Base 003 3/3' from whiteboard = Base round 3.",
     "url": "",
     "resubmittable": false,
@@ -233,7 +307,11 @@
     "prize_note": "Community grants, varies",
     "theme_fit": 5,
     "status": "active",
-    "tracks": ["Polygon", "EVM", "DeFi"],
+    "tracks": [
+      "Polygon",
+      "EVM",
+      "DeFi"
+    ],
     "angle": "SENTINEL deployment on Polygon. Lower priority -- pursue opportunistically.",
     "url": "",
     "resubmittable": false,
@@ -249,7 +327,10 @@
     "prize_note": "Small monthly bounties",
     "theme_fit": 5,
     "status": "active",
-    "tracks": ["AI", "decentralized compute"],
+    "tracks": [
+      "AI",
+      "decentralized compute"
+    ],
     "angle": "SENTINEL inference on Cortensor decentralized compute. Small ongoing upside.",
     "url": "",
     "resubmittable": false,
@@ -265,7 +346,10 @@
     "prize_note": "Closed -- missed",
     "theme_fit": 4,
     "status": "closed",
-    "tracks": ["AI video", "action generation"],
+    "tracks": [
+      "AI video",
+      "action generation"
+    ],
     "angle": "Watch for new rounds -- Higgsfield 26/2 from whiteboard was Feb 26 deadline.",
     "url": "",
     "resubmittable": false,
@@ -281,7 +365,11 @@
     "prize_note": "Accelerator cohort",
     "theme_fit": 7,
     "status": "closed",
-    "tracks": ["accelerator", "Stacks", "Bitcoin"],
+    "tracks": [
+      "accelerator",
+      "Stacks",
+      "Bitcoin"
+    ],
     "angle": "Missed Mar 3 deadline. Watch for next cohort -- Stacks + Simplicity = Bitcoin scripting fit for TRUTHBOUND.",
     "url": "",
     "resubmittable": false,
@@ -297,26 +385,39 @@
     "prize_note": "Mentorship + potential funding",
     "theme_fit": 6,
     "status": "active",
-    "tracks": ["mentorship", "VC", "Arbitrum", "DeFi"],
+    "tracks": [
+      "mentorship",
+      "VC",
+      "Arbitrum",
+      "DeFi"
+    ],
     "angle": "TRUTHBOUND IV pitch to Blok Capital. Arb Mentorship for technical guidance. Network value over immediate cash.",
-    "url": "",
+    "url": "https://blog.arbitrum.foundation/introducing-the-arbitrum-mentorship-program",
     "resubmittable": false,
-    "notes": "Whiteboard item. Rolling. Good for network + VC intro. Pursue after core hackathon sprint (post Mar 22)."
+    "notes": "Whiteboard item. Rolling. Good for network + VC intro. Pursue after core hackathon sprint (post Mar 22).",
+    "submission_url": "https://tally.so/r/mO5Drx"
   },
   {
-    "id": "token-slone",
-    "name": "Token (slone) 8/3",
+    "id": "tokenton26-deaura",
+    "name": "TokenTon26 by DeAura (Solana)",
     "category": "hackathon",
     "deadline": "2026-03-08",
-    "start_date": null,
-    "prize_usd": 0,
-    "prize_note": "Prize TBD",
-    "theme_fit": 6,
+    "start_date": "2026-02-02",
+    "prize_usd": 100000,
+    "prize_note": "$100K+ total: Grand $10.5K, DeFi $8.5K, AI $8.5K, Consumer $8.5K + $2K audit credits (Hacken) + RPC credits (Triton One) + Vercel Pro + Bonk Advisory interviews + DeAura ecosystem airdrop allocation",
+    "theme_fit": 9,
     "status": "active",
-    "tracks": ["token", "DeFi"],
-    "angle": "Whiteboard item -- 'Token (slone) 8/3'. Likely a token-focused hackathon with Mar 8 deadline. Verify details.",
-    "url": "",
+    "tracks": [
+      "DeFi",
+      "AI",
+      "Consumer Apps",
+      "Solana",
+      "token launch"
+    ],
+    "angle": "DeAura's Limitless Launch Engine -- solves Dead Liquidity Ratio ($10B+ problem). Build AI agent with on-chain truth layer as utility token launch on Solana. SENTINEL fits AI track perfectly. Can also angle DeFi track with privacy/verifiability layer. One prototype, submit to DeFi + AI tracks.",
+    "url": "https://www.buildifi.ai/hackathon/693bb38c238f4bd5a9b40e7f",
     "resubmittable": true,
-    "notes": "From whiteboard: 'Token (slone) 8/3'. Same deadline as Chainlink Convergence. Clarify if this is a separate event or a track within another event."
+    "notes": "Hosted on BuildiFi. Partners: Orca (liquidity/AMM), Codespect (audits), Vercel, Triton One (RPC), Hacken (audit credits), Deks (token spending). Backed by 13+ Solana Superteams globally. Focus on LAUNCHES not demos -- idea to product to live token to real users. Builder Mode ethos aligns with TRUTHBOUND IV. Also live event in Malaga with Vercel. Originally misidentified as 'Token (slone)' from whiteboard.",
+    "submission_url": "https://earn.superteam.fun/listings/?filter=hackathon&tag=tokenton26"
   }
 ]

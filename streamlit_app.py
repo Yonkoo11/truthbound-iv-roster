@@ -173,20 +173,59 @@ def render_opp_cards(tier_df):
         urg    = "🚨 " if days <= 3 else ("⚡ " if days <= 7 else "📅 ")
         label  = f"{urg}**{row['name']}** — {row['deadline_fmt']} ({days_s}) — {row['prize_fmt']} — fit {row.get('theme_fit', '?')}/10"
         with st.expander(label):
+            # Action buttons row
+            has_url = bool(row.get("url"))
+            has_sub = bool(row.get("submission_url"))
+            has_gh  = bool(row.get("github_link"))
+            has_dep = bool(row.get("deploy_url"))
+            btn_cols = [c for c in [has_url, has_sub, has_gh, has_dep] if c]
+            if btn_cols:
+                cols = st.columns(len(btn_cols))
+                ci = 0
+                if has_url:
+                    cols[ci].link_button("🔗 Hackathon Page", row["url"], use_container_width=True)
+                    ci += 1
+                if has_sub:
+                    sub_label = "📤 Submit Project" if has_url else "📝 Register / Submit"
+                    cols[ci].link_button(sub_label, row["submission_url"], use_container_width=True)
+                    ci += 1
+                if has_gh:
+                    cols[ci].link_button("💻 GitHub Repo", row["github_link"], use_container_width=True)
+                    ci += 1
+                if has_dep:
+                    cols[ci].link_button("🌐 Live Deploy", row["deploy_url"], use_container_width=True)
+
+            # At-a-glance section
+            if days != 9999:
+                if days <= 0:
+                    dl_badge = ":red[**PAST DUE**]"
+                elif days <= 3:
+                    dl_badge = f":red[**{days}d left**]"
+                elif days <= 7:
+                    dl_badge = f":orange[**{days}d left**]"
+                else:
+                    dl_badge = f":green[{days}d left]"
+                st.markdown(f"**Deadline:** {row['deadline_fmt']} — {dl_badge}")
+
+            prize_note = row.get("prize_note", "") or ""
+            st.markdown(f"**Prize:** {row['prize_fmt']}" + (f" — {prize_note}" if prize_note and prize_note != row["prize_fmt"] else ""))
+
+            tracks = row.get("tracks", [])
+            if isinstance(tracks, list) and tracks:
+                tags = " ".join(f"`{t}`" for t in tracks)
+                st.markdown(f"**Tracks:** {tags}")
+
+            st.divider()
+
+            # Details
             c1, c2 = st.columns([2, 1])
             with c1:
                 st.markdown(f"**Angle:**\n\n{row.get('angle', '—') or '—'}")
                 if row.get("notes"):
                     st.markdown(f"**Notes:**\n\n{row['notes']}")
-                if row.get("url"):
-                    st.markdown(f"[Open →]({row['url']})")
             with c2:
                 st.markdown(f"**Category:** {row.get('category','—')}")
                 st.markdown(f"**Theme fit:** {row.get('theme_fit','—')}/10")
-                st.markdown(f"**Prize:** {row.get('prize_note', '') or row['prize_fmt']}")
-                tracks = row.get("tracks", [])
-                if isinstance(tracks, list) and tracks:
-                    st.markdown("**Tracks:** " + ", ".join(tracks))
 
 
 with tab1:
