@@ -104,15 +104,26 @@ def _score_label(score: int) -> str:
     return "Low"
 
 
-def _score_color(score: int) -> tuple[str, str]:
-    """Returns (text_color, bg_color) for a priority score."""
+def _score_color_class(score: int) -> str:
+    """Returns CSS class for a priority score badge."""
     if score >= 75:
-        return "#b91c1c", "#fef2f2"
+        return "score-critical"
     if score >= 55:
-        return "#92400e", "#fffbeb"
+        return "score-high"
     if score >= 35:
-        return "#1e40af", "#eff6ff"
-    return "#374151", "#f3f4f6"
+        return "score-medium"
+    return "score-low"
+
+
+def _score_bar_class(score: int) -> str:
+    """Returns CSS class for score bar fill color."""
+    if score >= 75:
+        return "fill-critical"
+    if score >= 55:
+        return "fill-high"
+    if score >= 35:
+        return "fill-medium"
+    return "fill-low"
 
 
 # ── Formatting helpers ────────────────────────────────────────────────────────
@@ -154,15 +165,15 @@ def _esc(s: str) -> str:
     return html.escape(s, quote=True)
 
 
-def _tier_colors(tier: str) -> tuple[str, str]:
-    """Returns (text_color, bg_color) for light theme."""
+def _tier_class(tier: str) -> str:
+    """Returns CSS class for a tier badge."""
     return {
-        "Must-Do":       ("#b91c1c", "#fef2f2"),
-        "Should-Do":     ("#92400e", "#fffbeb"),
-        "May-Do":        ("#1e40af", "#eff6ff"),
-        "Needs-Review":  ("#6b21a8", "#faf5ff"),
-        "Closed":        ("#6b7280", "#f3f4f6"),
-    }.get(tier, ("#6b7280", "#f3f4f6"))
+        "Must-Do":       "tier-must",
+        "Should-Do":     "tier-should",
+        "May-Do":        "tier-may",
+        "Needs-Review":  "tier-review",
+        "Closed":        "tier-closed",
+    }.get(tier, "tier-closed")
 
 
 def _build_card(opp: dict, tier: str, score: int) -> str:
@@ -180,8 +191,9 @@ def _build_card(opp: dict, tier: str, score: int) -> str:
         except (json.JSONDecodeError, TypeError):
             tracks = []
 
-    tier_fg, tier_bg = _tier_colors(tier)
-    score_fg, score_bg = _score_color(score)
+    tier_cls = _tier_class(tier)
+    score_cls = _score_color_class(score)
+    fill_cls = _score_bar_class(score)
     cat_data = _esc(opp.get("category", "all"))
 
     days = days_until(opp.get("deadline"))
@@ -199,13 +211,13 @@ def _build_card(opp: dict, tier: str, score: int) -> str:
 
     # Score bar
     lines.append(f'  <div class="score-bar">')
-    lines.append(f'    <div class="score-fill" style="width:{score}%;background:{score_fg}"></div>')
+    lines.append(f'    <div class="score-fill {fill_cls}" style="width:{score}%"></div>')
     lines.append(f'  </div>')
 
     lines.append(f'  <div class="card-header">')
-    lines.append(f'    <span class="tier-badge" style="color:{tier_fg};background:{tier_bg}">{_esc(tier)}</span>')
+    lines.append(f'    <span class="tier-badge {tier_cls}">{_esc(tier)}</span>')
     lines.append(f'    <span class="cat-badge">{category}</span>')
-    lines.append(f'    <span class="score-badge" style="color:{score_fg};background:{score_bg}">{score}</span>')
+    lines.append(f'    <span class="score-badge {score_cls}">{score}</span>')
     if countdown:
         lines.append(f'    <span class="countdown {countdown_class}">{countdown}</span>')
     lines.append(f'  </div>')
@@ -338,57 +350,137 @@ def generate() -> str:
     sources_str = ", ".join(sources)
 
     return f"""<!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>TRUTHBOUND ROSTER</title>
+<script>
+// Apply saved theme before paint to prevent flash
+(function(){{var t=localStorage.getItem('tb-theme');if(t)document.documentElement.setAttribute('data-theme',t);else if(matchMedia('(prefers-color-scheme:dark)').matches)document.documentElement.setAttribute('data-theme','dark')}})();
+</script>
 <style>
+/* ── Theme variables ────────────────────────────────────── */
+:root,[data-theme="light"]{{
+  --bg:#fafafa;--bg-card:#fff;--bg-hero:#fff;--bg-input:#fff;
+  --bg-pipeline:#f9fafb;--bg-track:#f9fafb;
+  --border:#e5e7eb;--border-hover:#d1d5db;--border-track:#f3f4f6;
+  --border-section:#f3f4f6;
+  --text:#1a1a1a;--text-heading:#111;--text-secondary:#6b7280;
+  --text-muted:#9ca3af;--text-faint:#d1d5db;
+  --link:#2563eb;--link-hover:#1d4ed8;
+  --accent:#2563eb;--accent-hover:#1d4ed8;
+  --green:#059669;--green-hover:#047857;
+  --score-bar-bg:#f3f4f6;
+  --shadow:0 1px 3px rgba(0,0,0,0.04);--shadow-hover:0 2px 8px rgba(0,0,0,0.04);
+  --filter-active-bg:#2563eb;--filter-active-text:#fff;
+  --btn-details-bg:#eff6ff;--btn-details-text:#2563eb;--btn-details-border:#dbeafe;
+  --btn-submit-bg:#ecfdf5;--btn-submit-text:#059669;--btn-submit-border:#d1fae5;
+  /* Tier badges */
+  --tier-must-text:#b91c1c;--tier-must-bg:#fef2f2;
+  --tier-should-text:#92400e;--tier-should-bg:#fffbeb;
+  --tier-may-text:#1e40af;--tier-may-bg:#eff6ff;
+  --tier-review-text:#6b21a8;--tier-review-bg:#faf5ff;
+  --tier-closed-text:#6b7280;--tier-closed-bg:#f3f4f6;
+  /* Score badges */
+  --score-critical-text:#b91c1c;--score-critical-bg:#fef2f2;
+  --score-high-text:#92400e;--score-high-bg:#fffbeb;
+  --score-medium-text:#1e40af;--score-medium-bg:#eff6ff;
+  --score-low-text:#374151;--score-low-bg:#f3f4f6;
+  /* Score bar fills */
+  --fill-critical:#b91c1c;--fill-high:#92400e;--fill-medium:#1e40af;--fill-low:#6b7280;
+  --urgent-color:#dc2626;--soon-color:#d97706;
+}}
+
+[data-theme="dark"]{{
+  --bg:#0a0a0a;--bg-card:#141414;--bg-hero:#141414;--bg-input:#141414;
+  --bg-pipeline:#111;--bg-track:#111;
+  --border:#262626;--border-hover:#404040;--border-track:#1e1e1e;
+  --border-section:#1e1e1e;
+  --text:#e5e5e5;--text-heading:#f5f5f5;--text-secondary:#a3a3a3;
+  --text-muted:#737373;--text-faint:#404040;
+  --link:#60a5fa;--link-hover:#93bbfd;
+  --accent:#3b82f6;--accent-hover:#60a5fa;
+  --green:#34d399;--green-hover:#6ee7b7;
+  --score-bar-bg:#1e1e1e;
+  --shadow:0 1px 3px rgba(0,0,0,0.3);--shadow-hover:0 2px 8px rgba(0,0,0,0.3);
+  --filter-active-bg:#1e3a5f;--filter-active-text:#60a5fa;
+  --btn-details-bg:#172554;--btn-details-text:#60a5fa;--btn-details-border:#1e3a5f;
+  --btn-submit-bg:#052e16;--btn-submit-text:#4ade80;--btn-submit-border:#14532d;
+  /* Tier badges */
+  --tier-must-text:#fca5a5;--tier-must-bg:rgba(239,68,68,0.15);
+  --tier-should-text:#fcd34d;--tier-should-bg:rgba(234,179,8,0.12);
+  --tier-may-text:#93c5fd;--tier-may-bg:rgba(59,130,246,0.15);
+  --tier-review-text:#d8b4fe;--tier-review-bg:rgba(168,85,247,0.15);
+  --tier-closed-text:#6b7280;--tier-closed-bg:rgba(107,114,128,0.15);
+  /* Score badges */
+  --score-critical-text:#fca5a5;--score-critical-bg:rgba(239,68,68,0.15);
+  --score-high-text:#fcd34d;--score-high-bg:rgba(234,179,8,0.12);
+  --score-medium-text:#93c5fd;--score-medium-bg:rgba(59,130,246,0.15);
+  --score-low-text:#a3a3a3;--score-low-bg:rgba(107,114,128,0.15);
+  /* Score bar fills */
+  --fill-critical:#ef4444;--fill-high:#eab308;--fill-medium:#3b82f6;--fill-low:#6b7280;
+  --urgent-color:#ef4444;--soon-color:#eab308;
+}}
+
+/* ── Base ───────────────────────────────────────────────── */
 *,*::before,*::after{{box-sizing:border-box;margin:0;padding:0}}
 body{{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-  background:#fafafa;color:#1a1a1a;line-height:1.6;
-  min-height:100vh;
+  background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh;
+  transition:background 0.2s,color 0.2s;
 }}
-a{{color:#2563eb;text-decoration:none}}
-a:hover{{text-decoration:underline}}
+a{{color:var(--link);text-decoration:none}}
+a:hover{{color:var(--link-hover);text-decoration:underline}}
 
 .container{{max-width:1100px;margin:0 auto;padding:2rem 1.25rem}}
 
 /* Header */
-header{{margin-bottom:1.75rem}}
-header h1{{
+header{{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.75rem}}
+.header-left h1{{
   font-size:1.35rem;font-weight:800;letter-spacing:0.12em;
-  color:#111;margin-bottom:0.15rem;
+  color:var(--text-heading);margin-bottom:0.15rem;
 }}
-header .updated{{font-size:0.75rem;color:#9ca3af}}
+.header-left .updated{{font-size:0.75rem;color:var(--text-muted)}}
+
+/* Theme toggle */
+.theme-toggle{{
+  background:var(--bg-card);border:1px solid var(--border);border-radius:8px;
+  padding:0.4rem 0.5rem;cursor:pointer;font-size:1rem;line-height:1;
+  transition:all 0.15s;display:flex;align-items:center;justify-content:center;
+  width:36px;height:36px;
+}}
+.theme-toggle:hover{{border-color:var(--border-hover)}}
+.theme-toggle .icon-sun,.theme-toggle .icon-moon{{display:none}}
+[data-theme="light"] .theme-toggle .icon-moon{{display:block}}
+[data-theme="dark"] .theme-toggle .icon-sun{{display:block}}
 
 /* Stats strip */
 .stats{{
   display:flex;gap:1.5rem;flex-wrap:wrap;
-  margin-bottom:1.75rem;font-size:0.8rem;color:#6b7280;
+  margin-bottom:1.75rem;font-size:0.8rem;color:var(--text-secondary);
 }}
 .stats span{{white-space:nowrap}}
-.stats .value{{color:#111;font-weight:700}}
-.stats .divider{{color:#d1d5db}}
+.stats .value{{color:var(--text-heading);font-weight:700}}
+.stats .divider{{color:var(--text-faint)}}
 
-/* Hero: Next Move */
+/* Hero */
 .hero{{
-  background:#fff;border:2px solid #e5e7eb;border-radius:12px;
-  padding:1.5rem 1.75rem;margin-bottom:2rem;position:relative;
-  box-shadow:0 1px 3px rgba(0,0,0,0.04);
+  background:var(--bg-hero);border:2px solid var(--border);border-radius:12px;
+  padding:1.5rem 1.75rem;margin-bottom:2rem;
+  box-shadow:var(--shadow);transition:background 0.2s,border-color 0.2s;
 }}
 .hero-label{{
   font-size:0.65rem;font-weight:700;letter-spacing:0.1em;
-  color:#9ca3af;text-transform:uppercase;margin-bottom:0.35rem;
+  color:var(--text-muted);text-transform:uppercase;margin-bottom:0.35rem;
 }}
-.hero-title{{font-size:1.2rem;font-weight:700;color:#111;margin-bottom:0.5rem}}
+.hero-title{{font-size:1.2rem;font-weight:700;color:var(--text-heading);margin-bottom:0.5rem}}
 .hero-stats{{display:flex;gap:1rem;flex-wrap:wrap;font-size:0.8rem;margin-bottom:0.5rem}}
 .hero-urgency{{font-weight:700}}
-.hero-prize{{color:#059669;font-weight:600}}
-.hero-fit,.hero-score{{color:#6b7280}}
+.hero-prize{{color:var(--green);font-weight:600}}
+.hero-fit,.hero-score{{color:var(--text-secondary)}}
 .hero-angle{{
-  font-size:0.8rem;color:#6b7280;font-style:italic;
+  font-size:0.8rem;color:var(--text-secondary);font-style:italic;
   margin-bottom:0.75rem;line-height:1.5;
 }}
 .hero-actions{{display:flex;gap:0.5rem;flex-wrap:wrap}}
@@ -396,10 +488,10 @@ header .updated{{font-size:0.75rem;color:#9ca3af}}
   padding:0.45rem 1rem;border-radius:7px;font-size:0.8rem;font-weight:600;
   display:inline-block;transition:all 0.15s;
 }}
-.btn-hero-details{{background:#2563eb;color:#fff}}
-.btn-hero-details:hover{{background:#1d4ed8;text-decoration:none}}
-.btn-hero-submit{{background:#059669;color:#fff}}
-.btn-hero-submit:hover{{background:#047857;text-decoration:none}}
+.btn-hero-details{{background:var(--accent);color:#fff}}
+.btn-hero-details:hover{{background:var(--accent-hover);text-decoration:none}}
+.btn-hero-submit{{background:var(--green);color:#fff}}
+.btn-hero-submit:hover{{background:var(--green-hover);text-decoration:none}}
 
 /* Controls */
 .controls{{
@@ -408,63 +500,73 @@ header .updated{{font-size:0.75rem;color:#9ca3af}}
 }}
 .filters{{display:flex;gap:0.3rem;flex-wrap:wrap}}
 .filter-btn{{
-  padding:0.35rem 0.75rem;border-radius:7px;border:1px solid #e5e7eb;
-  background:#fff;color:#6b7280;cursor:pointer;font-size:0.78rem;
-  transition:all 0.15s;font-weight:500;
+  padding:0.35rem 0.75rem;border-radius:7px;border:1px solid var(--border);
+  background:var(--bg-card);color:var(--text-secondary);cursor:pointer;
+  font-size:0.78rem;transition:all 0.15s;font-weight:500;
 }}
-.filter-btn:hover{{border-color:#d1d5db;color:#111}}
-.filter-btn.active{{background:#2563eb;border-color:#2563eb;color:#fff}}
+.filter-btn:hover{{border-color:var(--border-hover);color:var(--text-heading)}}
+.filter-btn.active{{
+  background:var(--filter-active-bg);border-color:var(--filter-active-bg);
+  color:var(--filter-active-text);
+}}
 .sort-select{{
-  padding:0.35rem 0.5rem;border-radius:7px;border:1px solid #e5e7eb;
-  background:#fff;color:#6b7280;font-size:0.78rem;cursor:pointer;
+  padding:0.35rem 0.5rem;border-radius:7px;border:1px solid var(--border);
+  background:var(--bg-input);color:var(--text-secondary);font-size:0.78rem;cursor:pointer;
 }}
-.sort-select:focus{{outline:2px solid #2563eb;outline-offset:1px}}
+.sort-select:focus{{outline:2px solid var(--accent);outline-offset:1px}}
 
 /* Grid */
-.grid{{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
-  gap:0.85rem;
-}}
+.grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:0.85rem}}
 
 /* Cards */
 .card{{
-  background:#fff;border:1px solid #e5e7eb;border-radius:10px;
-  padding:1rem 1.15rem;transition:all 0.15s;position:relative;
+  background:var(--bg-card);border:1px solid var(--border);border-radius:10px;
+  padding:1rem 1.15rem;transition:all 0.2s;position:relative;
   display:flex;flex-direction:column;
 }}
-.card:hover{{border-color:#d1d5db;box-shadow:0 2px 8px rgba(0,0,0,0.04)}}
+.card:hover{{border-color:var(--border-hover);box-shadow:var(--shadow-hover)}}
 
-.score-bar{{
-  height:3px;background:#f3f4f6;border-radius:2px;margin-bottom:0.65rem;
-  overflow:hidden;
-}}
+.score-bar{{height:3px;background:var(--score-bar-bg);border-radius:2px;margin-bottom:0.65rem;overflow:hidden}}
 .score-fill{{height:100%;border-radius:2px;transition:width 0.3s}}
+.fill-critical{{background:var(--fill-critical)}}
+.fill-high{{background:var(--fill-high)}}
+.fill-medium{{background:var(--fill-medium)}}
+.fill-low{{background:var(--fill-low)}}
 
 .card-header{{display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.4rem}}
 .tier-badge{{
   font-size:0.65rem;font-weight:700;padding:0.12rem 0.45rem;border-radius:4px;
   text-transform:uppercase;letter-spacing:0.04em;
 }}
+.tier-must{{color:var(--tier-must-text);background:var(--tier-must-bg)}}
+.tier-should{{color:var(--tier-should-text);background:var(--tier-should-bg)}}
+.tier-may{{color:var(--tier-may-text);background:var(--tier-may-bg)}}
+.tier-review{{color:var(--tier-review-text);background:var(--tier-review-bg)}}
+.tier-closed{{color:var(--tier-closed-text);background:var(--tier-closed-bg)}}
+
 .cat-badge{{
-  font-size:0.6rem;color:#9ca3af;border:1px solid #e5e7eb;padding:0.08rem 0.35rem;
-  border-radius:3px;text-transform:uppercase;letter-spacing:0.03em;
+  font-size:0.6rem;color:var(--text-muted);border:1px solid var(--border);
+  padding:0.08rem 0.35rem;border-radius:3px;text-transform:uppercase;letter-spacing:0.03em;
 }}
-.score-badge{{
-  font-size:0.6rem;font-weight:700;padding:0.08rem 0.35rem;border-radius:3px;
-}}
-.countdown{{font-size:0.73rem;color:#9ca3af;margin-left:auto;font-weight:500}}
-.countdown.urgent{{color:#dc2626;font-weight:700}}
-.countdown.soon{{color:#d97706;font-weight:600}}
+.score-badge{{font-size:0.6rem;font-weight:700;padding:0.08rem 0.35rem;border-radius:3px}}
+.score-critical{{color:var(--score-critical-text);background:var(--score-critical-bg)}}
+.score-high{{color:var(--score-high-text);background:var(--score-high-bg)}}
+.score-medium{{color:var(--score-medium-text);background:var(--score-medium-bg)}}
+.score-low{{color:var(--score-low-text);background:var(--score-low-bg)}}
 
-.card-title{{font-size:0.9rem;font-weight:600;color:#111;margin-bottom:0.35rem}}
+.countdown{{font-size:0.73rem;color:var(--text-muted);margin-left:auto;font-weight:500}}
+.countdown.urgent{{color:var(--urgent-color);font-weight:700}}
+.countdown.soon{{color:var(--soon-color);font-weight:600}}
 
-.card-meta{{display:flex;gap:0.75rem;font-size:0.78rem;color:#6b7280;margin-bottom:0.4rem}}
-.prize{{color:#059669;font-weight:600}}
+.card-title{{font-size:0.9rem;font-weight:600;color:var(--text-heading);margin-bottom:0.35rem}}
+
+.card-meta{{display:flex;gap:0.75rem;font-size:0.78rem;color:var(--text-secondary);margin-bottom:0.4rem}}
+.prize{{color:var(--green);font-weight:600}}
 
 .tracks{{display:flex;gap:0.25rem;flex-wrap:wrap;margin-bottom:0.5rem}}
 .track-tag{{
-  font-size:0.6rem;color:#9ca3af;background:#f9fafb;border:1px solid #f3f4f6;
-  padding:0.08rem 0.3rem;border-radius:3px;
+  font-size:0.6rem;color:var(--text-muted);background:var(--bg-track);
+  border:1px solid var(--border-track);padding:0.08rem 0.3rem;border-radius:3px;
 }}
 
 .card-actions{{display:flex;gap:0.4rem;margin-top:auto;padding-top:0.25rem}}
@@ -472,20 +574,20 @@ header .updated{{font-size:0.75rem;color:#9ca3af}}
   padding:0.3rem 0.65rem;border-radius:6px;font-size:0.72rem;font-weight:500;
   transition:all 0.15s;display:inline-block;
 }}
-.btn-details{{background:#eff6ff;color:#2563eb;border:1px solid #dbeafe}}
-.btn-details:hover{{background:#dbeafe;text-decoration:none}}
-.btn-submit{{background:#ecfdf5;color:#059669;border:1px solid #d1fae5}}
-.btn-submit:hover{{background:#d1fae5;text-decoration:none}}
-.no-link{{font-size:0.68rem;color:#d1d5db;font-style:italic}}
+.btn-details{{background:var(--btn-details-bg);color:var(--btn-details-text);border:1px solid var(--btn-details-border)}}
+.btn-details:hover{{opacity:0.85;text-decoration:none}}
+.btn-submit{{background:var(--btn-submit-bg);color:var(--btn-submit-text);border:1px solid var(--btn-submit-border)}}
+.btn-submit:hover{{opacity:0.85;text-decoration:none}}
+.no-link{{font-size:0.68rem;color:var(--text-faint);font-style:italic}}
 
 /* Past section */
-.past-section{{margin-top:2.5rem;border-top:1px solid #f3f4f6;padding-top:1rem}}
+.past-section{{margin-top:2.5rem;border-top:1px solid var(--border-section);padding-top:1rem}}
 .past-toggle{{
-  cursor:pointer;color:#9ca3af;font-size:0.8rem;font-weight:500;
+  cursor:pointer;color:var(--text-muted);font-size:0.8rem;font-weight:500;
   padding:0.5rem 0;display:flex;align-items:center;gap:0.5rem;
   border:none;background:none;
 }}
-.past-toggle:hover{{color:#6b7280}}
+.past-toggle:hover{{color:var(--text-secondary)}}
 .past-toggle .arrow{{transition:transform 0.2s;display:inline-block;font-size:0.7rem}}
 .past-toggle.open .arrow{{transform:rotate(90deg)}}
 .past-grid{{display:none}}
@@ -496,21 +598,22 @@ header .updated{{font-size:0.75rem;color:#9ca3af}}
 .past-grid .card{{opacity:0.45}}
 .past-grid .card:hover{{opacity:0.7}}
 
-/* Pipeline status */
+/* Pipeline */
 .pipeline{{
-  margin-top:2rem;padding:1rem 1.25rem;background:#f9fafb;
-  border:1px solid #f3f4f6;border-radius:8px;font-size:0.72rem;color:#9ca3af;
+  margin-top:2rem;padding:1rem 1.25rem;background:var(--bg-pipeline);
+  border:1px solid var(--border-section);border-radius:8px;
+  font-size:0.72rem;color:var(--text-muted);
 }}
-.pipeline strong{{color:#6b7280;font-weight:600}}
-.pipeline .sources{{color:#6b7280}}
+.pipeline strong{{color:var(--text-secondary);font-weight:600}}
 
-footer{{text-align:center;margin-top:2rem;padding:1rem 0;font-size:0.68rem;color:#d1d5db}}
+footer{{text-align:center;margin-top:2rem;padding:1rem 0;font-size:0.68rem;color:var(--text-faint)}}
 
 @media(max-width:400px){{
   .grid,.past-grid.show{{grid-template-columns:1fr}}
   .stats{{flex-direction:column;gap:0.2rem}}
   .controls{{flex-direction:column}}
   .hero{{padding:1rem 1.15rem}}
+  header{{flex-direction:column;align-items:flex-start;gap:0.5rem}}
 }}
 </style>
 </head>
@@ -518,8 +621,14 @@ footer{{text-align:center;margin-top:2rem;padding:1rem 0;font-size:0.68rem;color
 <div class="container">
 
 <header>
-  <h1>TRUTHBOUND ROSTER</h1>
-  <div class="updated">Updated {updated}</div>
+  <div class="header-left">
+    <h1>TRUTHBOUND ROSTER</h1>
+    <div class="updated">Updated {updated}</div>
+  </div>
+  <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+    <span class="icon-sun">&#9728;&#65039;</span>
+    <span class="icon-moon">&#9790;&#65039;</span>
+  </button>
 </header>
 
 <div class="stats">
@@ -606,6 +715,15 @@ document.getElementById('sort').addEventListener('change', (e) => {{
 document.getElementById('pastToggle').addEventListener('click', function() {{
   this.classList.toggle('open');
   document.getElementById('pastGrid').classList.toggle('show');
+}});
+
+// Theme toggle
+document.getElementById('themeToggle').addEventListener('click', () => {{
+  const html = document.documentElement;
+  const current = html.getAttribute('data-theme');
+  const next = current === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('tb-theme', next);
 }});
 </script>
 </body>
