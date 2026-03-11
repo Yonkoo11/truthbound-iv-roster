@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 """
 scout.py — Automated opportunity discovery for TRUTHBOUND IV.
 
@@ -149,7 +151,7 @@ def _normalize_date(raw: str) -> Optional[str]:
     clean = re.sub(r"(\d+)(st|nd|rd|th)\b", r"\1", raw)
     # 2. Date ranges: "Mar 31 - Apr 06, 2026" or "Mar 14 - 15, 2026" → use end date
     #    Split on dash/endash surrounded by spaces
-    parts = re.split(r"\s+[–—-]\s+", clean, maxsplit=1)
+    parts = re.split(r"\s*[–—-]\s*", clean, maxsplit=1)
     if len(parts) == 2:
         end_part = parts[1].strip()
         # Same-month range: end part is just "15, 2026" — prepend month from start

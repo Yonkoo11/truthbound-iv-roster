@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 """
 TRUTHBOUND IV — Opportunity Roster & Strategy Engine
 
@@ -38,9 +40,10 @@ from pathlib import Path
 
 import db
 from db import fmt_day
+from classify import classify, enrich, days_until, TIER_RANK, TIER_ICON
+from config import REPO_DIR, IDEAS_FILE
 
-IDEAS_FILE  = Path(__file__).parent / "data" / "ideas.json"
-SCRIPTS_DIR = Path(__file__).parent / "scripts"
+SCRIPTS_DIR = REPO_DIR / "scripts"
 TODAY       = date.today()
 
 # ─── Rich dependency ──────────────────────────────────────────────────────────
@@ -65,15 +68,6 @@ def load_ideas() -> dict:
         return json.load(f)
 
 
-def days_until(deadline_str: str | None) -> int:
-    if not deadline_str:
-        return 9999
-    try:
-        return (datetime.strptime(deadline_str, "%Y-%m-%d").date() - TODAY).days
-    except ValueError:
-        return 9999
-
-
 def fmt_deadline(opp: dict) -> str:
     dl = opp.get("deadline")
     if not dl:
@@ -92,56 +86,6 @@ def fmt_prize(opp: dict) -> str:
     if p >= 1_000:
         return f"${p // 1_000}k"
     return (opp.get("prize_note") or "—")[:20]
-
-
-# ─── Classification ───────────────────────────────────────────────────────────
-
-def classify(opp: dict) -> str:
-    status = opp.get("status", "active")
-    if status in ("closed", "submitted", "won"):
-        return status.capitalize()
-    if status == "needs_review":
-        return "Needs-Review"
-    days  = days_until(opp.get("deadline"))
-    if days < 0:
-        return "Expired"
-    prize = opp.get("prize_usd", 0)
-    fit   = opp.get("theme_fit", 0) or 0
-    cat   = opp.get("category", "")
-    if days <= 7:
-        return "Must-Do"
-    if prize >= 50_000 and fit >= 7:
-        return "Must-Do"
-    if cat == "accelerator" and fit >= 7:
-        return "Must-Do"
-    if days <= 21 and (prize >= 20_000 or fit >= 5):
-        return "Should-Do"
-    if prize >= 20_000 and fit >= 5:
-        return "Should-Do"
-    return "May-Do"
-
-
-TIER_RANK = {
-    "Must-Do": 0, "Should-Do": 1, "May-Do": 2,
-    "Needs-Review": 3, "Submitted": 4, "Won": 5, "Closed": 6, "Expired": 7,
-}
-TIER_ICON = {
-    "Must-Do":      ("bold red",    "🔴"),
-    "Should-Do":    ("yellow",      "🟡"),
-    "May-Do":       ("cyan",        "🔵"),
-    "Needs-Review": ("bold magenta","🔍"),
-    "Submitted":    ("bold green",  "✅"),
-    "Won":          ("bold yellow", "🏆"),
-    "Closed":       ("dim",         "⬛"),
-    "Expired":      ("dim red",     "❌"),
-}
-
-
-def enrich(data: list) -> list:
-    for o in data:
-        o["_tier"] = classify(o)
-        o["_days"] = days_until(o.get("deadline"))
-    return data
 
 
 # ─── Table renderer ───────────────────────────────────────────────────────────
@@ -618,20 +562,62 @@ def cmd_review() -> None:
 
 # ─── Add new opportunity ──────────────────────────────────────────────────────
 
-def cmd_add() -> None:
-    console.print("\n[bold]Add New Opportunity[/bold]")
-    name     = input("  Name: ").strip()
+def cmd_add(extra_args: list | None = None) -> None:
+    """Add an opportunity. Supports flags for quick-add:
+    roster add "Name" --deadline 2026-04-15 --prize 50000 --fit 8 --cat hackathon
+    Or run with no flags for interactive mode.
+    """
+    args = extra_args or []
+
+    # Quick-add: first positional arg is the name, rest are flags
+    name = None
+    deadline = None
+    prize = 0
+    fit = None
+    category = "hackathon"
+    angle = ""
+    notes = ""
+    url = ""
+
+    # Parse flags
+    i = 0
+    positionals = []
+    while i < len(args):
+        if args[i] == "--deadline" and i + 1 < len(args):
+            deadline = args[i + 1]; i += 2
+        elif args[i] == "--prize" and i + 1 < len(args):
+            prize = int(args[i + 1]); i += 2
+        elif args[i] == "--fit" and i + 1 < len(args):
+            fit = int(args[i + 1]); i += 2
+        elif args[i] == "--cat" and i + 1 < len(args):
+            category = args[i + 1]; i += 2
+        elif args[i] == "--angle" and i + 1 < len(args):
+            angle = args[i + 1]; i += 2
+        elif args[i] == "--url" and i + 1 < len(args):
+            url = args[i + 1]; i += 2
+        elif args[i] == "--notes" and i + 1 < len(args):
+            notes = args[i + 1]; i += 2
+        else:
+            positionals.append(args[i]); i += 1
+
+    if positionals:
+        name = " ".join(positionals)
+
+    # Fall back to interactive for missing required field
     if not name:
-        console.print("[red]Name is required.[/red]")
-        return
-    deadline = input("  Deadline YYYY-MM-DD (blank = rolling): ").strip() or None
-    prize    = int(input("  Prize USD (0 if none): ").strip() or "0")
-    fit_raw  = input("  Theme fit 1-10: ").strip()
-    fit      = int(fit_raw) if fit_raw.isdigit() else None
-    category = input("  Category (hackathon/grant/accelerator/bounty): ").strip() or "hackathon"
-    angle    = input("  TRUTHBOUND IV angle: ").strip()
-    notes    = input("  Notes: ").strip()
-    url      = input("  URL: ").strip()
+        console.print("\n[bold]Add New Opportunity[/bold]")
+        name = input("  Name: ").strip()
+        if not name:
+            console.print("[red]Name is required.[/red]")
+            return
+        deadline = input("  Deadline YYYY-MM-DD (blank = rolling): ").strip() or None
+        prize = int(input("  Prize USD (0 if none): ").strip() or "0")
+        fit_raw = input("  Theme fit 1-10: ").strip()
+        fit = int(fit_raw) if fit_raw.isdigit() else None
+        category = input("  Category (hackathon/grant/accelerator/bounty): ").strip() or "hackathon"
+        angle = input("  Angle: ").strip()
+        notes = input("  Notes: ").strip()
+        url = input("  URL: ").strip()
 
     opp_id = re.sub(r"[^a-z0-9]+", "-", name.lower())[:40].strip("-")
     # Ensure unique ID
@@ -1071,32 +1057,52 @@ def cmd_health() -> None:
     lines.append(f"[bold]DB:[/bold] {total} total — " +
                  " / ".join(f"{s}: {n}" for s, n in sorted(counts.items())))
 
-    # Heartbeat (last scout run)
-    hb_file = REPO_DIR / "data" / ".heartbeat"
-    if hb_file.exists():
-        hb_ts = hb_file.read_text().strip()
-        try:
-            hb_dt = datetime.fromisoformat(hb_ts.rstrip("Z"))
-            ago   = datetime.now() - hb_dt
-            h     = int(ago.total_seconds() // 3600)
-            color = "green" if h < 24 else ("yellow" if h < 48 else "red")
-            lines.append(f"[bold]Last scout:[/bold] [{color}]{hb_ts} ({h}h ago)[/{color}]")
-        except ValueError:
-            lines.append(f"[bold]Last scout:[/bold] {hb_ts} (unparseable timestamp)")
+    # Launchd agents status
+    agents = {
+        "com.truthbound.scout":    ("Scout",    "Sunday 9AM"),
+        "com.truthbound.calendar": ("Calendar", "Daily 8AM"),
+        "com.truthbound.morning":  ("Morning",  "Daily 6AM"),
+    }
+    for label, (name, schedule) in agents.items():
+        result = subprocess.run(["launchctl", "list", label], capture_output=True, text=True)
+        if result.returncode == 0:
+            lines.append(f"[bold]{name}:[/bold] [green]loaded[/green] ({schedule})")
+        else:
+            lines.append(f"[bold]{name}:[/bold] [red]not loaded[/red] — launchctl load ~/Library/LaunchAgents/{label}.plist")
+
+    # Last scout run (check log file)
+    scout_log = REPO_DIR / "logs" / "scout_launchd.log"
+    if scout_log.exists() and scout_log.stat().st_size > 0:
+        mtime = datetime.fromtimestamp(scout_log.stat().st_mtime)
+        ago = datetime.now() - mtime
+        h = int(ago.total_seconds() // 3600)
+        color = "green" if h < 24 else ("yellow" if h < 168 else "red")
+        lines.append(f"[bold]Last scout:[/bold] [{color}]{mtime.strftime('%Y-%m-%d %H:%M')} ({h}h ago)[/{color}]")
     else:
-        lines.append("[bold]Last scout:[/bold] [dim]no heartbeat file — run_scout.sh hasn't run yet[/dim]")
+        # Fallback: check old scout logs
+        scout_logs = sorted(REPO_DIR.glob("logs/scout_*.log"), reverse=True)
+        if scout_logs:
+            latest = scout_logs[0]
+            mtime = datetime.fromtimestamp(latest.stat().st_mtime)
+            ago = datetime.now() - mtime
+            h = int(ago.total_seconds() // 3600)
+            color = "green" if h < 24 else ("yellow" if h < 168 else "red")
+            lines.append(f"[bold]Last scout:[/bold] [{color}]{mtime.strftime('%Y-%m-%d %H:%M')} ({h}h ago)[/{color}]")
+        else:
+            lines.append("[bold]Last scout:[/bold] [dim]no logs found[/dim]")
 
     # Last calendar sync
-    cal_log = REPO_DIR / "logs" / "calendar_cron.log"
-    if cal_log.exists():
-        cal_lines = cal_log.read_text().splitlines()
-        last_start = next((l for l in reversed(cal_lines) if "calendar sync starting" in l), None)
-        if last_start:
-            lines.append(f"[bold]Last calendar sync:[/bold] {last_start.split(']')[0].lstrip('[')}")
-        else:
-            lines.append("[bold]Last calendar sync:[/bold] [dim]no run recorded[/dim]")
+    cal_sync_log = REPO_DIR / "logs" / "calendar_sync.jsonl"
+    if cal_sync_log.exists():
+        last_line = cal_sync_log.read_text().strip().splitlines()[-1:]
+        if last_line:
+            try:
+                entry = json.loads(last_line[0])
+                lines.append(f"[bold]Last calendar sync:[/bold] {entry.get('ts', 'unknown')[:19]}")
+            except json.JSONDecodeError:
+                lines.append("[bold]Last calendar sync:[/bold] [dim]log parse error[/dim]")
     else:
-        lines.append("[bold]Last calendar sync:[/bold] [dim]log not found[/dim]")
+        lines.append("[bold]Last calendar sync:[/bold] [dim]no sync log[/dim]")
 
     # Backup age
     backups_dir = REPO_DIR / "data" / "backups"
@@ -1184,7 +1190,7 @@ def cmd_help() -> None:
 
 def main() -> None:
     args = sys.argv[1:]
-    cmd  = args[0].lower() if args else "weekly"
+    cmd  = args[0].lower() if args else "today"
 
     match cmd:
         case "weekly" | "":
@@ -1212,7 +1218,7 @@ def main() -> None:
         case "review":
             cmd_review()
         case "add":
-            cmd_add()
+            cmd_add(args[1:])
         case "add-url":
             if len(args) < 2:
                 console.print("[red]Usage: python roster.py add-url <url>[/red]")

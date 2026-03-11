@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 """
 db.py — SQLite data access layer for TRUTHBOUND IV Roster.
 

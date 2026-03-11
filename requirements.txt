@@ -1,12 +1,7 @@
-# Python 3.9+ required
+# Python 3.10+ required (or any version with `from __future__ import annotations`)
 # Core CLI
 rich==14.3.3
 tabulate==0.10.0
-
-# Dashboard
-streamlit==1.55.0
-pandas==2.3.3
-plotly==6.6.0
 
 # Scout sources
 requests==2.32.5

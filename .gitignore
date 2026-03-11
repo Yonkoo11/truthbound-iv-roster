@@ -17,6 +17,9 @@ data/.source_health.json
 data/backups/
 data/export.csv
 data/export.json
+data/audit.jsonl
+data/seen_urls.json
+data/opportunities.backup.json
 
 # Logs
 logs/

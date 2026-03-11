@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 """
 sync_calendar.py — Apple Calendar sync for TRUTHBOUND IV deadlines.
 
