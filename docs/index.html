@@ -8,109 +8,170 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-  background:#0a0a0a;color:#e5e5e5;line-height:1.5;
+  background:#fafafa;color:#1a1a1a;line-height:1.6;
   min-height:100vh;
 }
-a{color:#60a5fa;text-decoration:none}
+a{color:#2563eb;text-decoration:none}
 a:hover{text-decoration:underline}
 
-.container{max-width:1100px;margin:0 auto;padding:1.5rem 1rem}
+.container{max-width:1100px;margin:0 auto;padding:2rem 1.25rem}
 
-header{text-align:center;margin-bottom:2rem}
-header h1{font-size:1.5rem;font-weight:700;letter-spacing:0.15em;color:#f5f5f5;margin-bottom:0.25rem}
-header .updated{font-size:0.8rem;color:#737373}
+/* Header */
+header{margin-bottom:1.75rem}
+header h1{
+  font-size:1.35rem;font-weight:800;letter-spacing:0.12em;
+  color:#111;margin-bottom:0.15rem;
+}
+header .updated{font-size:0.75rem;color:#9ca3af}
 
+/* Stats strip */
 .stats{
-  display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;
-  margin-bottom:1.5rem;font-size:0.85rem;color:#a3a3a3;
+  display:flex;gap:1.5rem;flex-wrap:wrap;
+  margin-bottom:1.75rem;font-size:0.8rem;color:#6b7280;
 }
 .stats span{white-space:nowrap}
-.stats .value{color:#e5e5e5;font-weight:600}
+.stats .value{color:#111;font-weight:700}
+.stats .divider{color:#d1d5db}
 
+/* Hero: Next Move */
+.hero{
+  background:#fff;border:2px solid #e5e7eb;border-radius:12px;
+  padding:1.5rem 1.75rem;margin-bottom:2rem;position:relative;
+  box-shadow:0 1px 3px rgba(0,0,0,0.04);
+}
+.hero-label{
+  font-size:0.65rem;font-weight:700;letter-spacing:0.1em;
+  color:#9ca3af;text-transform:uppercase;margin-bottom:0.35rem;
+}
+.hero-title{font-size:1.2rem;font-weight:700;color:#111;margin-bottom:0.5rem}
+.hero-stats{display:flex;gap:1rem;flex-wrap:wrap;font-size:0.8rem;margin-bottom:0.5rem}
+.hero-urgency{font-weight:700}
+.hero-prize{color:#059669;font-weight:600}
+.hero-fit,.hero-score{color:#6b7280}
+.hero-angle{
+  font-size:0.8rem;color:#6b7280;font-style:italic;
+  margin-bottom:0.75rem;line-height:1.5;
+}
+.hero-actions{display:flex;gap:0.5rem;flex-wrap:wrap}
+.btn-hero{
+  padding:0.45rem 1rem;border-radius:7px;font-size:0.8rem;font-weight:600;
+  display:inline-block;transition:all 0.15s;
+}
+.btn-hero-details{background:#2563eb;color:#fff}
+.btn-hero-details:hover{background:#1d4ed8;text-decoration:none}
+.btn-hero-submit{background:#059669;color:#fff}
+.btn-hero-submit:hover{background:#047857;text-decoration:none}
+
+/* Controls */
 .controls{
   display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;
-  justify-content:space-between;margin-bottom:1.5rem;
+  justify-content:space-between;margin-bottom:1.25rem;
 }
-.filters{display:flex;gap:0.25rem;flex-wrap:wrap}
+.filters{display:flex;gap:0.3rem;flex-wrap:wrap}
 .filter-btn{
-  padding:0.35rem 0.75rem;border-radius:6px;border:1px solid #262626;
-  background:#171717;color:#a3a3a3;cursor:pointer;font-size:0.8rem;
-  transition:all 0.15s;
+  padding:0.35rem 0.75rem;border-radius:7px;border:1px solid #e5e7eb;
+  background:#fff;color:#6b7280;cursor:pointer;font-size:0.78rem;
+  transition:all 0.15s;font-weight:500;
 }
-.filter-btn:hover{border-color:#404040;color:#e5e5e5}
-.filter-btn.active{background:#1e3a5f;border-color:#3b82f6;color:#60a5fa}
+.filter-btn:hover{border-color:#d1d5db;color:#111}
+.filter-btn.active{background:#2563eb;border-color:#2563eb;color:#fff}
 .sort-select{
-  padding:0.35rem 0.5rem;border-radius:6px;border:1px solid #262626;
-  background:#171717;color:#a3a3a3;font-size:0.8rem;cursor:pointer;
+  padding:0.35rem 0.5rem;border-radius:7px;border:1px solid #e5e7eb;
+  background:#fff;color:#6b7280;font-size:0.78rem;cursor:pointer;
 }
-.sort-select:focus{outline:1px solid #3b82f6}
+.sort-select:focus{outline:2px solid #2563eb;outline-offset:1px}
 
+/* Grid */
 .grid{
   display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
-  gap:1rem;
+  gap:0.85rem;
 }
 
+/* Cards */
 .card{
-  background:#171717;border:1px solid #262626;border-radius:10px;
-  padding:1rem 1.15rem;transition:border-color 0.15s;
+  background:#fff;border:1px solid #e5e7eb;border-radius:10px;
+  padding:1rem 1.15rem;transition:all 0.15s;position:relative;
+  display:flex;flex-direction:column;
 }
-.card:hover{border-color:#404040}
-.card-header{display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.5rem}
+.card:hover{border-color:#d1d5db;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+
+.score-bar{
+  height:3px;background:#f3f4f6;border-radius:2px;margin-bottom:0.65rem;
+  overflow:hidden;
+}
+.score-fill{height:100%;border-radius:2px;transition:width 0.3s}
+
+.card-header{display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.4rem}
 .tier-badge{
-  font-size:0.7rem;font-weight:700;padding:0.15rem 0.5rem;border-radius:4px;
-  text-transform:uppercase;letter-spacing:0.05em;
+  font-size:0.65rem;font-weight:700;padding:0.12rem 0.45rem;border-radius:4px;
+  text-transform:uppercase;letter-spacing:0.04em;
 }
 .cat-badge{
-  font-size:0.65rem;color:#737373;border:1px solid #333;padding:0.1rem 0.4rem;
-  border-radius:3px;text-transform:uppercase;letter-spacing:0.04em;
+  font-size:0.6rem;color:#9ca3af;border:1px solid #e5e7eb;padding:0.08rem 0.35rem;
+  border-radius:3px;text-transform:uppercase;letter-spacing:0.03em;
 }
-.countdown{font-size:0.75rem;color:#a3a3a3;margin-left:auto}
-.countdown.urgent{color:#ef4444;font-weight:700}
-.countdown.soon{color:#eab308;font-weight:600}
+.score-badge{
+  font-size:0.6rem;font-weight:700;padding:0.08rem 0.35rem;border-radius:3px;
+}
+.countdown{font-size:0.73rem;color:#9ca3af;margin-left:auto;font-weight:500}
+.countdown.urgent{color:#dc2626;font-weight:700}
+.countdown.soon{color:#d97706;font-weight:600}
 
-.card-title{font-size:0.95rem;font-weight:600;color:#f5f5f5;margin-bottom:0.4rem}
+.card-title{font-size:0.9rem;font-weight:600;color:#111;margin-bottom:0.35rem}
 
-.card-meta{display:flex;gap:0.75rem;font-size:0.8rem;color:#a3a3a3;margin-bottom:0.5rem}
-.prize{color:#10b981;font-weight:600}
-.fit{color:#a3a3a3}
+.card-meta{display:flex;gap:0.75rem;font-size:0.78rem;color:#6b7280;margin-bottom:0.4rem}
+.prize{color:#059669;font-weight:600}
 
-.tracks{display:flex;gap:0.3rem;flex-wrap:wrap;margin-bottom:0.6rem}
+.tracks{display:flex;gap:0.25rem;flex-wrap:wrap;margin-bottom:0.5rem}
 .track-tag{
-  font-size:0.65rem;color:#737373;background:#1a1a1a;border:1px solid #2a2a2a;
-  padding:0.1rem 0.35rem;border-radius:3px;
+  font-size:0.6rem;color:#9ca3af;background:#f9fafb;border:1px solid #f3f4f6;
+  padding:0.08rem 0.3rem;border-radius:3px;
 }
 
-.card-actions{display:flex;gap:0.5rem;margin-top:auto}
+.card-actions{display:flex;gap:0.4rem;margin-top:auto;padding-top:0.25rem}
 .btn{
-  padding:0.3rem 0.7rem;border-radius:5px;font-size:0.75rem;font-weight:500;
+  padding:0.3rem 0.65rem;border-radius:6px;font-size:0.72rem;font-weight:500;
   transition:all 0.15s;display:inline-block;
 }
-.btn-details{background:#1e3a5f;color:#60a5fa;border:1px solid #2563eb}
-.btn-details:hover{background:#1e40af;text-decoration:none}
-.btn-submit{background:#14532d;color:#4ade80;border:1px solid #16a34a}
-.btn-submit:hover{background:#166534;text-decoration:none}
-.no-link{font-size:0.7rem;color:#525252;font-style:italic}
+.btn-details{background:#eff6ff;color:#2563eb;border:1px solid #dbeafe}
+.btn-details:hover{background:#dbeafe;text-decoration:none}
+.btn-submit{background:#ecfdf5;color:#059669;border:1px solid #d1fae5}
+.btn-submit:hover{background:#d1fae5;text-decoration:none}
+.no-link{font-size:0.68rem;color:#d1d5db;font-style:italic}
 
-.past-section{margin-top:2.5rem}
+/* Past section */
+.past-section{margin-top:2.5rem;border-top:1px solid #f3f4f6;padding-top:1rem}
 .past-toggle{
-  cursor:pointer;color:#737373;font-size:0.85rem;
+  cursor:pointer;color:#9ca3af;font-size:0.8rem;font-weight:500;
   padding:0.5rem 0;display:flex;align-items:center;gap:0.5rem;
   border:none;background:none;
 }
-.past-toggle:hover{color:#a3a3a3}
-.past-toggle .arrow{transition:transform 0.2s;display:inline-block}
+.past-toggle:hover{color:#6b7280}
+.past-toggle .arrow{transition:transform 0.2s;display:inline-block;font-size:0.7rem}
 .past-toggle.open .arrow{transform:rotate(90deg)}
 .past-grid{display:none}
-.past-grid.show{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1rem;margin-top:0.75rem}
-.past-grid .card{opacity:0.5}
-.past-grid .card:hover{opacity:0.8}
+.past-grid.show{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+  gap:0.85rem;margin-top:0.75rem;
+}
+.past-grid .card{opacity:0.45}
+.past-grid .card:hover{opacity:0.7}
 
-footer{text-align:center;margin-top:3rem;padding:1rem 0;font-size:0.7rem;color:#525252}
+/* Pipeline status */
+.pipeline{
+  margin-top:2rem;padding:1rem 1.25rem;background:#f9fafb;
+  border:1px solid #f3f4f6;border-radius:8px;font-size:0.72rem;color:#9ca3af;
+}
+.pipeline strong{color:#6b7280;font-weight:600}
+.pipeline .sources{color:#6b7280}
+
+footer{text-align:center;margin-top:2rem;padding:1rem 0;font-size:0.68rem;color:#d1d5db}
 
 @media(max-width:400px){
   .grid,.past-grid.show{grid-template-columns:1fr}
-  .stats{flex-direction:column;align-items:center;gap:0.25rem}
+  .stats{flex-direction:column;gap:0.2rem}
   .controls{flex-direction:column}
+  .hero{padding:1rem 1.15rem}
 }
 </style>
 </head>
@@ -119,13 +180,34 @@ footer{text-align:center;margin-top:3rem;padding:1rem 0;font-size:0.7rem;color:#
 
 <header>
   <h1>TRUTHBOUND ROSTER</h1>
-  <div class="updated">Last updated: Mar 11, 2026</div>
+  <div class="updated">Updated Mar 11, 2026</div>
 </header>
 
 <div class="stats">
   <span><span class="value">16</span> active</span>
+  <span class="divider">|</span>
   <span><span class="value">$677K</span> in scope</span>
-  <span>Next: <span class="value">PL Genesis (Protocol Labs Frontiers) in 5d</span></span>
+  <span class="divider">|</span>
+  <span><span class="value">0</span> submitted</span>
+  <span class="divider">|</span>
+  <span><span class="value">0</span> won</span>
+  <span class='divider'>|</span><span><span class='value'>3</span> to review</span>
+</div>
+
+<div class="hero">
+  <div class="hero-label">YOUR NEXT MOVE</div>
+  <h2 class="hero-title">PL Genesis (Protocol Labs Frontiers)</h2>
+  <div class="hero-stats">
+    <span class="hero-urgency" style="color:#d97706">This week</span>
+    <span class="hero-prize">$100K</span>
+    <span class="hero-fit">fit 10/10</span>
+    <span class="hero-score">priority 89/100</span>
+  </div>
+  <p class="hero-angle">"TRUTHBOUND IV as privacy-preserving AI truth layer. Governance + verifiability = perfect PL narrative. Top teams get Fou"</p>
+  <div class="hero-actions">
+    <a href="https://www.plgenesis.com/" target="_blank" rel="noopener" class="btn-hero btn-hero-details">View Details</a>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfIPJBWJJXnp3TK7sKqFbkivD4vF1EMaLMNFkRmfDHV8Rn4RA/viewform" target="_blank" rel="noopener" class="btn-hero btn-hero-submit">Go to Submission</a>
+  </div>
 </div>
 
 <div class="controls">
@@ -137,6 +219,7 @@ footer{text-align:center;margin-top:3rem;padding:1rem 0;font-size:0.7rem;color:#
     <button class="filter-btn" data-filter="bounty">Bounties</button>
   </div>
   <select class="sort-select" id="sort">
+    <option value="score">Sort: Priority</option>
     <option value="deadline">Sort: Deadline</option>
     <option value="prize">Sort: Prize</option>
     <option value="fit">Sort: Theme Fit</option>
@@ -144,10 +227,14 @@ footer{text-align:center;margin-top:3rem;padding:1rem 0;font-size:0.7rem;color:#
 </div>
 
 <div class="grid" id="grid">
-<div class="card" data-category="accelerator" data-tier="Must-Do" data-deadline="2026-03-16" data-prize="100000" data-fit="10">
+<div class="card" data-category="accelerator" data-tier="Must-Do" data-deadline="2026-03-16" data-prize="100000" data-fit="10" data-score="89">
+  <div class="score-bar">
+    <div class="score-fill" style="width:89%;background:#b91c1c"></div>
+  </div>
   <div class="card-header">
-    <span class="tier-badge" style="color:#ef4444;background:rgba(239,68,68,0.15)">Must-Do</span>
+    <span class="tier-badge" style="color:#b91c1c;background:#fef2f2">Must-Do</span>
     <span class="cat-badge">Accelerator</span>
+    <span class="score-badge" style="color:#b91c1c;background:#fef2f2">89</span>
     <span class="countdown soon">5d left</span>
   </div>
   <h3 class="card-title">PL Genesis (Protocol Labs Frontiers)</h3>
@@ -166,31 +253,14 @@ footer{text-align:center;margin-top:3rem;padding:1rem 0;font-size:0.7rem;color:#
     <a href="https://docs.google.com/forms/d/e/1FAIpQLSfIPJBWJJXnp3TK7sKqFbkivD4vF1EMaLMNFkRmfDHV8Rn4RA/viewform" target="_blank" rel="noopener" class="btn btn-submit">Submit</a>
   </div>
 </div>
-<div class="card" data-category="grant" data-tier="Must-Do" data-deadline="2026-03-18" data-prize="0" data-fit="6">
+<div class="card" data-category="hackathon" data-tier="Must-Do" data-deadline="2026-03-22" data-prize="50000" data-fit="8" data-score="70">
+  <div class="score-bar">
+    <div class="score-fill" style="width:70%;background:#92400e"></div>
+  </div>
   <div class="card-header">
-    <span class="tier-badge" style="color:#ef4444;background:rgba(239,68,68,0.15)">Must-Do</span>
-    <span class="cat-badge">Grant</span>
-    <span class="countdown soon">7d left</span>
-  </div>
-  <h3 class="card-title">Avalanche Retro9000 / InfraBUIDL</h3>
-  <div class="card-meta">
-    <span class="fit">fit 6/10</span>
-  </div>
-  <div class="tracks">
-    <span class="track-tag">infrastructure</span>
-    <span class="track-tag">C-Chain</span>
-    <span class="track-tag">Avalanche</span>
-    <span class="track-tag">DeFi</span>
-  </div>
-  <div class="card-actions">
-    <a href="https://retro9000.avax.network/round-rules" target="_blank" rel="noopener" class="btn btn-details">Details</a>
-    <a href="https://retro9000.avax.network/projects" target="_blank" rel="noopener" class="btn btn-submit">Submit</a>
-  </div>
-</div>
-<div class="card" data-category="hackathon" data-tier="Must-Do" data-deadline="2026-03-22" data-prize="50000" data-fit="8">
-  <div class="card-header">
-    <span class="tier-badge" style="color:#ef4444;background:rgba(239,68,68,0.15)">Must-Do</span>
+    <span class="tier-badge" style="color:#b91c1c;background:#fef2f2">Must-Do</span>
     <span class="cat-badge">Hackathon</span>
+    <span class="score-badge" style="color:#92400e;background:#fffbeb">70</span>
     <span class="countdown ">Mar 22</span>
   </div>
   <h3 class="card-title">AI Trading Agents with ERC-8004</h3>
@@ -209,52 +279,40 @@ footer{text-align:center;margin-top:3rem;padding:1rem 0;font-size:0.7rem;color:#
     <a href="https://lablab.ai/ai-hackathons/ai-trading-agents-with-erc-8004" target="_blank" rel="noopener" class="btn btn-submit">Submit</a>
   </div>
 </div>
-<div class="card" data-category="accelerator" data-tier="Must-Do" data-deadline="2026-04-07" data-prize="100000" data-fit="8">
+<div class="card" data-category="hackathon" data-tier="Should-Do" data-deadline="2026-03-22" data-prize="202000" data-fit="5" data-score="69">
+  <div class="score-bar">
+    <div class="score-fill" style="width:69%;background:#92400e"></div>
+  </div>
   <div class="card-header">
-    <span class="tier-badge" style="color:#ef4444;background:rgba(239,68,68,0.15)">Must-Do</span>
-    <span class="cat-badge">Accelerator</span>
-    <span class="countdown ">Apr 07</span>
-  </div>
-  <h3 class="card-title">Arb Mentorship / Blok Capital</h3>
-  <div class="card-meta">
-    <span class="prize">$100K</span>
-    <span class="fit">fit 8/10</span>
-  </div>
-  <div class="tracks">
-    <span class="track-tag">Arbitrum</span>
-    <span class="track-tag">DeFi</span>
-    <span class="track-tag">mentorship</span>
-  </div>
-  <div class="card-actions">
-    <a href="https://blog.arbitrum.foundation/introducing-the-arbitrum-mentorship-program-access-capital-and-strategic-support/" target="_blank" rel="noopener" class="btn btn-details">Details</a>
-    <a href="https://tally.so/r/mO5Drx" target="_blank" rel="noopener" class="btn btn-submit">Submit</a>
-  </div>
-</div>
-<div class="card" data-category="accelerator" data-tier="Must-Do" data-deadline="9999-12-31" data-prize="0" data-fit="7">
-  <div class="card-header">
-    <span class="tier-badge" style="color:#ef4444;background:rgba(239,68,68,0.15)">Must-Do</span>
-    <span class="cat-badge">Accelerator</span>
-    <span class="countdown ">Rolling</span>
-  </div>
-  <h3 class="card-title">Brinc FAIR Data Web3 Accelerator</h3>
-  <div class="card-meta">
-    <span class="fit">fit 7/10</span>
-  </div>
-  <div class="tracks">
-    <span class="track-tag">data</span>
-    <span class="track-tag">Web3</span>
-    <span class="track-tag">privacy</span>
-    <span class="track-tag">fair data</span>
-  </div>
-  <div class="card-actions">
-    <a href="https://www.brinc.io/fair-data-web3-accelerator/" target="_blank" rel="noopener" class="btn btn-details">Details</a>
-    <a href="https://www.brinc.io/fair-data-web3-accelerator/" target="_blank" rel="noopener" class="btn btn-submit">Submit</a>
-  </div>
-</div>
-<div class="card" data-category="hackathon" data-tier="Should-Do" data-deadline="2026-03-19" data-prize="35500" data-fit="8">
-  <div class="card-header">
-    <span class="tier-badge" style="color:#eab308;background:rgba(234,179,8,0.15)">Should-Do</span>
+    <span class="tier-badge" style="color:#92400e;background:#fffbeb">Should-Do</span>
     <span class="cat-badge">Hackathon</span>
+    <span class="score-badge" style="color:#92400e;background:#fffbeb">69</span>
+    <span class="countdown ">Mar 22</span>
+  </div>
+  <h3 class="card-title">StableHacks 2026 (Solana)</h3>
+  <div class="card-meta">
+    <span class="prize">$202K</span>
+    <span class="fit">fit 5/10</span>
+  </div>
+  <div class="tracks">
+    <span class="track-tag">stablecoins</span>
+    <span class="track-tag">institutional</span>
+    <span class="track-tag">Solana</span>
+    <span class="track-tag">DeFi</span>
+  </div>
+  <div class="card-actions">
+    <a href="https://dorahacks.io/hackathon/stablehacks/detail" target="_blank" rel="noopener" class="btn btn-details">Details</a>
+    <a href="https://dorahacks.io/hackathon/stablehacks/buidl" target="_blank" rel="noopener" class="btn btn-submit">Submit</a>
+  </div>
+</div>
+<div class="card" data-category="hackathon" data-tier="Should-Do" data-deadline="2026-03-19" data-prize="35500" data-fit="8" data-score="66">
+  <div class="score-bar">
+    <div class="score-fill" style="width:66%;background:#92400e"></div>
+  </div>
+  <div class="card-header">
+    <span class="tier-badge" style="color:#92400e;background:#fffbeb">Should-Do</span>
+    <span class="cat-badge">Hackathon</span>
+    <span class="score-badge" style="color:#92400e;background:#fffbeb">66</span>
     <span class="countdown ">Mar 19</span>
   </div>
   <h3 class="card-title">TokenTon26 by DeAura (Solana)</h3>
@@ -274,54 +332,39 @@ footer{text-align:center;margin-top:3rem;padding:1rem 0;font-size:0.7rem;color:#
     <a href="https://earn.superteam.fun/listings/?filter=hackathon&amp;tag=tokenton26" target="_blank" rel="noopener" class="btn btn-submit">Submit</a>
   </div>
 </div>
-<div class="card" data-category="hackathon" data-tier="Should-Do" data-deadline="2026-03-20" data-prize="30000" data-fit="5">
-  <div class="card-header">
-    <span class="tier-badge" style="color:#eab308;background:rgba(234,179,8,0.15)">Should-Do</span>
-    <span class="cat-badge">Hackathon</span>
-    <span class="countdown ">Mar 20</span>
+<div class="card" data-category="accelerator" data-tier="Must-Do" data-deadline="2026-04-07" data-prize="100000" data-fit="8" data-score="64">
+  <div class="score-bar">
+    <div class="score-fill" style="width:64%;background:#92400e"></div>
   </div>
-  <h3 class="card-title">Polkadot Solidity Hackathon</h3>
+  <div class="card-header">
+    <span class="tier-badge" style="color:#b91c1c;background:#fef2f2">Must-Do</span>
+    <span class="cat-badge">Accelerator</span>
+    <span class="score-badge" style="color:#92400e;background:#fffbeb">64</span>
+    <span class="countdown ">Apr 07</span>
+  </div>
+  <h3 class="card-title">Arb Mentorship / Blok Capital</h3>
   <div class="card-meta">
-    <span class="prize">$30K</span>
-    <span class="fit">fit 5/10</span>
+    <span class="prize">$100K</span>
+    <span class="fit">fit 8/10</span>
   </div>
   <div class="tracks">
-    <span class="track-tag">Polkadot</span>
-    <span class="track-tag">Solidity</span>
-    <span class="track-tag">cross-chain</span>
-    <span class="track-tag">EVM</span>
-  </div>
-  <div class="card-actions">
-    <a href="https://dorahacks.io/hackathon/polkadot-solidity-hackathon" target="_blank" rel="noopener" class="btn btn-details">Details</a>
-    <a href="https://dorahacks.io/hackathon/polkadot-solidity-hackathon/buidl" target="_blank" rel="noopener" class="btn btn-submit">Submit</a>
-  </div>
-</div>
-<div class="card" data-category="hackathon" data-tier="Should-Do" data-deadline="2026-03-22" data-prize="202000" data-fit="5">
-  <div class="card-header">
-    <span class="tier-badge" style="color:#eab308;background:rgba(234,179,8,0.15)">Should-Do</span>
-    <span class="cat-badge">Hackathon</span>
-    <span class="countdown ">Mar 22</span>
-  </div>
-  <h3 class="card-title">StableHacks 2026 (Solana)</h3>
-  <div class="card-meta">
-    <span class="prize">$202K</span>
-    <span class="fit">fit 5/10</span>
-  </div>
-  <div class="tracks">
-    <span class="track-tag">stablecoins</span>
-    <span class="track-tag">institutional</span>
-    <span class="track-tag">Solana</span>
+    <span class="track-tag">Arbitrum</span>
     <span class="track-tag">DeFi</span>
+    <span class="track-tag">mentorship</span>
   </div>
   <div class="card-actions">
-    <a href="https://dorahacks.io/hackathon/stablehacks/detail" target="_blank" rel="noopener" class="btn btn-details">Details</a>
-    <a href="https://dorahacks.io/hackathon/stablehacks/buidl" target="_blank" rel="noopener" class="btn btn-submit">Submit</a>
+    <a href="https://blog.arbitrum.foundation/introducing-the-arbitrum-mentorship-program-access-capital-and-strategic-support/" target="_blank" rel="noopener" class="btn btn-details">Details</a>
+    <a href="https://tally.so/r/mO5Drx" target="_blank" rel="noopener" class="btn btn-submit">Submit</a>
   </div>
 </div>
-<div class="card" data-category="hackathon" data-tier="Should-Do" data-deadline="2026-03-22" data-prize="30000" data-fit="7">
+<div class="card" data-category="hackathon" data-tier="Should-Do" data-deadline="2026-03-22" data-prize="30000" data-fit="7" data-score="63">
+  <div class="score-bar">
+    <div class="score-fill" style="width:63%;background:#92400e"></div>
+  </div>
   <div class="card-header">
-    <span class="tier-badge" style="color:#eab308;background:rgba(234,179,8,0.15)">Should-Do</span>
+    <span class="tier-badge" style="color:#92400e;background:#fffbeb">Should-Do</span>
     <span class="cat-badge">Hackathon</span>
+    <span class="score-badge" style="color:#92400e;background:#fffbeb">63</span>
     <span class="countdown ">Mar 22</span>
   </div>
   <h3 class="card-title">Tether Hackathon Galactica: WDK Edition 1</h3>
@@ -340,73 +383,90 @@ footer{text-align:center;margin-top:3rem;padding:1rem 0;font-size:0.7rem;color:#
     <a href="https://dorahacks.io/hackathon/hackathon-galactica/buidl" target="_blank" rel="noopener" class="btn btn-submit">Submit</a>
   </div>
 </div>
-<div class="card" data-category="bounty" data-tier="Should-Do" data-deadline="2026-06-14" data-prize="100000" data-fit="5">
-  <div class="card-header">
-    <span class="tier-badge" style="color:#eab308;background:rgba(234,179,8,0.15)">Should-Do</span>
-    <span class="cat-badge">Bounty</span>
-    <span class="countdown ">Jun 14</span>
+<div class="card" data-category="hackathon" data-tier="Should-Do" data-deadline="2026-03-20" data-prize="30000" data-fit="5" data-score="58">
+  <div class="score-bar">
+    <div class="score-fill" style="width:58%;background:#92400e"></div>
   </div>
-  <h3 class="card-title">Liquify Indexer API</h3>
+  <div class="card-header">
+    <span class="tier-badge" style="color:#92400e;background:#fffbeb">Should-Do</span>
+    <span class="cat-badge">Hackathon</span>
+    <span class="score-badge" style="color:#92400e;background:#fffbeb">58</span>
+    <span class="countdown ">Mar 20</span>
+  </div>
+  <h3 class="card-title">Polkadot Solidity Hackathon</h3>
   <div class="card-meta">
-    <span class="prize">$100K</span>
+    <span class="prize">$30K</span>
     <span class="fit">fit 5/10</span>
   </div>
   <div class="tracks">
-    <span class="track-tag">indexer</span>
-    <span class="track-tag">data</span>
-    <span class="track-tag">API</span>
-    <span class="track-tag">infrastructure</span>
+    <span class="track-tag">Polkadot</span>
+    <span class="track-tag">Solidity</span>
+    <span class="track-tag">cross-chain</span>
+    <span class="track-tag">EVM</span>
   </div>
   <div class="card-actions">
-    <a href="https://dorahacks.io/hackathon/liquify" target="_blank" rel="noopener" class="btn btn-details">Details</a>
+    <a href="https://dorahacks.io/hackathon/polkadot-solidity-hackathon" target="_blank" rel="noopener" class="btn btn-details">Details</a>
+    <a href="https://dorahacks.io/hackathon/polkadot-solidity-hackathon/buidl" target="_blank" rel="noopener" class="btn btn-submit">Submit</a>
   </div>
 </div>
-<div class="card" data-category="hackathon" data-tier="May-Do" data-deadline="2026-04-12" data-prize="0" data-fit="7">
-  <div class="card-header">
-    <span class="tier-badge" style="color:#3b82f6;background:rgba(59,130,246,0.15)">May-Do</span>
-    <span class="cat-badge">Hackathon</span>
-    <span class="countdown ">Apr 12</span>
+<div class="card" data-category="grant" data-tier="Must-Do" data-deadline="2026-03-18" data-prize="0" data-fit="6" data-score="52">
+  <div class="score-bar">
+    <div class="score-fill" style="width:52%;background:#1e40af"></div>
   </div>
-  <h3 class="card-title">MIT Bitcoin Expo Hackathon</h3>
+  <div class="card-header">
+    <span class="tier-badge" style="color:#b91c1c;background:#fef2f2">Must-Do</span>
+    <span class="cat-badge">Grant</span>
+    <span class="score-badge" style="color:#1e40af;background:#eff6ff">52</span>
+    <span class="countdown soon">7d left</span>
+  </div>
+  <h3 class="card-title">Avalanche Retro9000 / InfraBUIDL</h3>
   <div class="card-meta">
-    <span class="prize">Prize TBD, prestige event</span>
+    <span class="fit">fit 6/10</span>
+  </div>
+  <div class="tracks">
+    <span class="track-tag">infrastructure</span>
+    <span class="track-tag">C-Chain</span>
+    <span class="track-tag">Avalanche</span>
+    <span class="track-tag">DeFi</span>
+  </div>
+  <div class="card-actions">
+    <a href="https://retro9000.avax.network/round-rules" target="_blank" rel="noopener" class="btn btn-details">Details</a>
+    <a href="https://retro9000.avax.network/projects" target="_blank" rel="noopener" class="btn btn-submit">Submit</a>
+  </div>
+</div>
+<div class="card" data-category="hackathon" data-tier="Needs-Review" data-deadline="2026-04-30" data-prize="35000" data-fit="7" data-score="45">
+  <div class="score-bar">
+    <div class="score-fill" style="width:45%;background:#1e40af"></div>
+  </div>
+  <div class="card-header">
+    <span class="tier-badge" style="color:#6b21a8;background:#faf5ff">Needs-Review</span>
+    <span class="cat-badge">Hackathon</span>
+    <span class="score-badge" style="color:#1e40af;background:#eff6ff">45</span>
+    <span class="countdown ">Apr 30</span>
+  </div>
+  <h3 class="card-title">MEZO Hackathon (Bitcoin&#x27;s Future)</h3>
+  <div class="card-meta">
+    <span class="prize">$35K</span>
     <span class="fit">fit 7/10</span>
   </div>
   <div class="tracks">
     <span class="track-tag">Bitcoin</span>
-    <span class="track-tag">privacy</span>
-    <span class="track-tag">open source</span>
-  </div>
-  <div class="card-actions">
-    <a href="https://mitbitcoinexpo.org/" target="_blank" rel="noopener" class="btn btn-details">Details</a>
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdeA7jE3-SMOzXGRoSEl-kH2QY9RDaZb-x2QnbK2DXCqxT6gg/viewform" target="_blank" rel="noopener" class="btn btn-submit">Submit</a>
-  </div>
-</div>
-<div class="card" data-category="hackathon" data-tier="May-Do" data-deadline="2026-04-16" data-prize="15000" data-fit="6">
-  <div class="card-header">
-    <span class="tier-badge" style="color:#3b82f6;background:rgba(59,130,246,0.15)">May-Do</span>
-    <span class="cat-badge">Hackathon</span>
-    <span class="countdown ">Apr 16</span>
-  </div>
-  <h3 class="card-title">Pacifica</h3>
-  <div class="card-meta">
-    <span class="prize">$15K</span>
-    <span class="fit">fit 6/10</span>
-  </div>
-  <div class="tracks">
-    <span class="track-tag">Solana</span>
-    <span class="track-tag">perpetual contracts</span>
     <span class="track-tag">DeFi</span>
+    <span class="track-tag">programmable Bitcoin</span>
+    <span class="track-tag">MEZO</span>
   </div>
   <div class="card-actions">
-    <a href="https://pacifica.gitbook.io/closed-alpha/hackathon/pacifica-hackathon" target="_blank" rel="noopener" class="btn btn-details">Details</a>
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfzW7x_1Uh0niU3BQY6MHCeN_Bb0kTOi0hR_c40ISNuBPlVEg/viewform" target="_blank" rel="noopener" class="btn btn-submit">Submit</a>
+    <span class="no-link">No links yet</span>
   </div>
 </div>
-<div class="card" data-category="hackathon" data-tier="May-Do" data-deadline="2026-12-31" data-prize="10000" data-fit="8">
+<div class="card" data-category="hackathon" data-tier="May-Do" data-deadline="2026-12-31" data-prize="10000" data-fit="8" data-score="40">
+  <div class="score-bar">
+    <div class="score-fill" style="width:40%;background:#1e40af"></div>
+  </div>
   <div class="card-header">
-    <span class="tier-badge" style="color:#3b82f6;background:rgba(59,130,246,0.15)">May-Do</span>
+    <span class="tier-badge" style="color:#1e40af;background:#eff6ff">May-Do</span>
     <span class="cat-badge">Hackathon</span>
+    <span class="score-badge" style="color:#1e40af;background:#eff6ff">40</span>
     <span class="countdown ">Dec 31</span>
   </div>
   <h3 class="card-title">48 Weeks. 48 Blockchains.</h3>
@@ -425,10 +485,150 @@ footer{text-align:center;margin-top:3rem;padding:1rem 0;font-size:0.7rem;color:#
     <a href="https://dorahacks.io/hackathon/codequity-x-blockchains" target="_blank" rel="noopener" class="btn btn-details">Details</a>
   </div>
 </div>
-<div class="card" data-category="bounty" data-tier="May-Do" data-deadline="9999-12-31" data-prize="5000" data-fit="5">
+<div class="card" data-category="hackathon" data-tier="May-Do" data-deadline="2026-04-16" data-prize="15000" data-fit="6" data-score="39">
+  <div class="score-bar">
+    <div class="score-fill" style="width:39%;background:#1e40af"></div>
+  </div>
   <div class="card-header">
-    <span class="tier-badge" style="color:#3b82f6;background:rgba(59,130,246,0.15)">May-Do</span>
+    <span class="tier-badge" style="color:#1e40af;background:#eff6ff">May-Do</span>
+    <span class="cat-badge">Hackathon</span>
+    <span class="score-badge" style="color:#1e40af;background:#eff6ff">39</span>
+    <span class="countdown ">Apr 16</span>
+  </div>
+  <h3 class="card-title">Pacifica</h3>
+  <div class="card-meta">
+    <span class="prize">$15K</span>
+    <span class="fit">fit 6/10</span>
+  </div>
+  <div class="tracks">
+    <span class="track-tag">Solana</span>
+    <span class="track-tag">perpetual contracts</span>
+    <span class="track-tag">DeFi</span>
+  </div>
+  <div class="card-actions">
+    <a href="https://pacifica.gitbook.io/closed-alpha/hackathon/pacifica-hackathon" target="_blank" rel="noopener" class="btn btn-details">Details</a>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfzW7x_1Uh0niU3BQY6MHCeN_Bb0kTOi0hR_c40ISNuBPlVEg/viewform" target="_blank" rel="noopener" class="btn btn-submit">Submit</a>
+  </div>
+</div>
+<div class="card" data-category="bounty" data-tier="Should-Do" data-deadline="2026-06-14" data-prize="100000" data-fit="5" data-score="39">
+  <div class="score-bar">
+    <div class="score-fill" style="width:39%;background:#1e40af"></div>
+  </div>
+  <div class="card-header">
+    <span class="tier-badge" style="color:#92400e;background:#fffbeb">Should-Do</span>
     <span class="cat-badge">Bounty</span>
+    <span class="score-badge" style="color:#1e40af;background:#eff6ff">39</span>
+    <span class="countdown ">Jun 14</span>
+  </div>
+  <h3 class="card-title">Liquify Indexer API</h3>
+  <div class="card-meta">
+    <span class="prize">$100K</span>
+    <span class="fit">fit 5/10</span>
+  </div>
+  <div class="tracks">
+    <span class="track-tag">indexer</span>
+    <span class="track-tag">data</span>
+    <span class="track-tag">API</span>
+    <span class="track-tag">infrastructure</span>
+  </div>
+  <div class="card-actions">
+    <a href="https://dorahacks.io/hackathon/liquify" target="_blank" rel="noopener" class="btn btn-details">Details</a>
+  </div>
+</div>
+<div class="card" data-category="hackathon" data-tier="May-Do" data-deadline="2026-04-12" data-prize="0" data-fit="7" data-score="31">
+  <div class="score-bar">
+    <div class="score-fill" style="width:31%;background:#374151"></div>
+  </div>
+  <div class="card-header">
+    <span class="tier-badge" style="color:#1e40af;background:#eff6ff">May-Do</span>
+    <span class="cat-badge">Hackathon</span>
+    <span class="score-badge" style="color:#374151;background:#f3f4f6">31</span>
+    <span class="countdown ">Apr 12</span>
+  </div>
+  <h3 class="card-title">MIT Bitcoin Expo Hackathon</h3>
+  <div class="card-meta">
+    <span class="prize">Prize TBD, prestige event</span>
+    <span class="fit">fit 7/10</span>
+  </div>
+  <div class="tracks">
+    <span class="track-tag">Bitcoin</span>
+    <span class="track-tag">privacy</span>
+    <span class="track-tag">open source</span>
+  </div>
+  <div class="card-actions">
+    <a href="https://mitbitcoinexpo.org/" target="_blank" rel="noopener" class="btn btn-details">Details</a>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdeA7jE3-SMOzXGRoSEl-kH2QY9RDaZb-x2QnbK2DXCqxT6gg/viewform" target="_blank" rel="noopener" class="btn btn-submit">Submit</a>
+  </div>
+</div>
+<div class="card" data-category="accelerator" data-tier="Must-Do" data-deadline="9999-12-31" data-prize="0" data-fit="7" data-score="27">
+  <div class="score-bar">
+    <div class="score-fill" style="width:27%;background:#374151"></div>
+  </div>
+  <div class="card-header">
+    <span class="tier-badge" style="color:#b91c1c;background:#fef2f2">Must-Do</span>
+    <span class="cat-badge">Accelerator</span>
+    <span class="score-badge" style="color:#374151;background:#f3f4f6">27</span>
+    <span class="countdown ">Rolling</span>
+  </div>
+  <h3 class="card-title">Brinc FAIR Data Web3 Accelerator</h3>
+  <div class="card-meta">
+    <span class="fit">fit 7/10</span>
+  </div>
+  <div class="tracks">
+    <span class="track-tag">data</span>
+    <span class="track-tag">Web3</span>
+    <span class="track-tag">privacy</span>
+    <span class="track-tag">fair data</span>
+  </div>
+  <div class="card-actions">
+    <a href="https://www.brinc.io/fair-data-web3-accelerator/" target="_blank" rel="noopener" class="btn btn-details">Details</a>
+    <a href="https://www.brinc.io/fair-data-web3-accelerator/" target="_blank" rel="noopener" class="btn btn-submit">Submit</a>
+  </div>
+</div>
+<div class="card" data-category="hackathon" data-tier="Needs-Review" data-deadline="2026-07-01" data-prize="0" data-fit="6" data-score="25">
+  <div class="score-bar">
+    <div class="score-fill" style="width:25%;background:#374151"></div>
+  </div>
+  <div class="card-header">
+    <span class="tier-badge" style="color:#6b21a8;background:#faf5ff">Needs-Review</span>
+    <span class="cat-badge">Hackathon</span>
+    <span class="score-badge" style="color:#374151;background:#f3f4f6">25</span>
+    <span class="countdown ">Jul 01</span>
+  </div>
+  <h3 class="card-title">AWS Activate Program for Web3 Startups</h3>
+  <div class="card-meta">
+    <span class="fit">fit 6/10</span>
+  </div>
+  <div class="card-actions">
+    <a href="https://dorahacks.io/hackathon/aws-activate/detail" target="_blank" rel="noopener" class="btn btn-details">Details</a>
+  </div>
+</div>
+<div class="card" data-category="hackathon" data-tier="Needs-Review" data-deadline="2026-09-20" data-prize="0" data-fit="6" data-score="25">
+  <div class="score-bar">
+    <div class="score-fill" style="width:25%;background:#374151"></div>
+  </div>
+  <div class="card-header">
+    <span class="tier-badge" style="color:#6b21a8;background:#faf5ff">Needs-Review</span>
+    <span class="cat-badge">Hackathon</span>
+    <span class="score-badge" style="color:#374151;background:#f3f4f6">25</span>
+    <span class="countdown ">Sep 20</span>
+  </div>
+  <h3 class="card-title">MunichTech Innovation Hackathon 2026 – Build Applied solutions for Industry</h3>
+  <div class="card-meta">
+    <span class="fit">fit 6/10</span>
+  </div>
+  <div class="card-actions">
+    <a href="https://dorahacks.io/hackathon/2019/detail" target="_blank" rel="noopener" class="btn btn-details">Details</a>
+  </div>
+</div>
+<div class="card" data-category="bounty" data-tier="May-Do" data-deadline="9999-12-31" data-prize="5000" data-fit="5" data-score="21">
+  <div class="score-bar">
+    <div class="score-fill" style="width:21%;background:#374151"></div>
+  </div>
+  <div class="card-header">
+    <span class="tier-badge" style="color:#1e40af;background:#eff6ff">May-Do</span>
+    <span class="cat-badge">Bounty</span>
+    <span class="score-badge" style="color:#374151;background:#f3f4f6">21</span>
     <span class="countdown ">Rolling</span>
   </div>
   <h3 class="card-title">Cortensor (Monthly Bounty)</h3>
@@ -441,13 +641,17 @@ footer{text-align:center;margin-top:3rem;padding:1rem 0;font-size:0.7rem;color:#
     <span class="track-tag">decentralized compute</span>
   </div>
   <div class="card-actions">
-    <span class="no-link">No links available</span>
+    <span class="no-link">No links yet</span>
   </div>
 </div>
-<div class="card" data-category="grant" data-tier="May-Do" data-deadline="9999-12-31" data-prize="0" data-fit="6">
+<div class="card" data-category="grant" data-tier="May-Do" data-deadline="9999-12-31" data-prize="0" data-fit="6" data-score="20">
+  <div class="score-bar">
+    <div class="score-fill" style="width:20%;background:#374151"></div>
+  </div>
   <div class="card-header">
-    <span class="tier-badge" style="color:#3b82f6;background:rgba(59,130,246,0.15)">May-Do</span>
+    <span class="tier-badge" style="color:#1e40af;background:#eff6ff">May-Do</span>
     <span class="cat-badge">Grant</span>
+    <span class="score-badge" style="color:#374151;background:#f3f4f6">20</span>
     <span class="countdown ">Rolling</span>
   </div>
   <h3 class="card-title">Base Ecosystem Builders</h3>
@@ -464,10 +668,14 @@ footer{text-align:center;margin-top:3rem;padding:1rem 0;font-size:0.7rem;color:#
     <a href="https://docs.base.org/get-started/get-funded" target="_blank" rel="noopener" class="btn btn-details">Details</a>
   </div>
 </div>
-<div class="card" data-category="grant" data-tier="May-Do" data-deadline="9999-12-31" data-prize="0" data-fit="5">
+<div class="card" data-category="grant" data-tier="May-Do" data-deadline="9999-12-31" data-prize="0" data-fit="5" data-score="17">
+  <div class="score-bar">
+    <div class="score-fill" style="width:17%;background:#374151"></div>
+  </div>
   <div class="card-header">
-    <span class="tier-badge" style="color:#3b82f6;background:rgba(59,130,246,0.15)">May-Do</span>
+    <span class="tier-badge" style="color:#1e40af;background:#eff6ff">May-Do</span>
     <span class="cat-badge">Grant</span>
+    <span class="score-badge" style="color:#374151;background:#f3f4f6">17</span>
     <span class="countdown ">Rolling</span>
   </div>
   <h3 class="card-title">Polygon Community Grants</h3>
@@ -483,55 +691,6 @@ footer{text-align:center;margin-top:3rem;padding:1rem 0;font-size:0.7rem;color:#
     <a href="https://polygon.technology/grow" target="_blank" rel="noopener" class="btn btn-details">Details</a>
   </div>
 </div>
-<div class="card" data-category="hackathon" data-tier="Needs-Review" data-deadline="2026-04-30" data-prize="35000" data-fit="7">
-  <div class="card-header">
-    <span class="tier-badge" style="color:#a855f7;background:rgba(168,85,247,0.15)">Needs-Review</span>
-    <span class="cat-badge">Hackathon</span>
-    <span class="countdown ">Apr 30</span>
-  </div>
-  <h3 class="card-title">MEZO Hackathon (Bitcoin&#x27;s Future)</h3>
-  <div class="card-meta">
-    <span class="prize">$35K</span>
-    <span class="fit">fit 7/10</span>
-  </div>
-  <div class="tracks">
-    <span class="track-tag">Bitcoin</span>
-    <span class="track-tag">DeFi</span>
-    <span class="track-tag">programmable Bitcoin</span>
-    <span class="track-tag">MEZO</span>
-  </div>
-  <div class="card-actions">
-    <span class="no-link">No links available</span>
-  </div>
-</div>
-<div class="card" data-category="hackathon" data-tier="Needs-Review" data-deadline="2026-07-01" data-prize="0" data-fit="6">
-  <div class="card-header">
-    <span class="tier-badge" style="color:#a855f7;background:rgba(168,85,247,0.15)">Needs-Review</span>
-    <span class="cat-badge">Hackathon</span>
-    <span class="countdown ">Jul 01</span>
-  </div>
-  <h3 class="card-title">AWS Activate Program for Web3 Startups</h3>
-  <div class="card-meta">
-    <span class="fit">fit 6/10</span>
-  </div>
-  <div class="card-actions">
-    <a href="https://dorahacks.io/hackathon/aws-activate/detail" target="_blank" rel="noopener" class="btn btn-details">Details</a>
-  </div>
-</div>
-<div class="card" data-category="hackathon" data-tier="Needs-Review" data-deadline="2026-09-20" data-prize="0" data-fit="6">
-  <div class="card-header">
-    <span class="tier-badge" style="color:#a855f7;background:rgba(168,85,247,0.15)">Needs-Review</span>
-    <span class="cat-badge">Hackathon</span>
-    <span class="countdown ">Sep 20</span>
-  </div>
-  <h3 class="card-title">MunichTech Innovation Hackathon 2026 – Build Applied solutions for Industry</h3>
-  <div class="card-meta">
-    <span class="fit">fit 6/10</span>
-  </div>
-  <div class="card-actions">
-    <a href="https://dorahacks.io/hackathon/2019/detail" target="_blank" rel="noopener" class="btn btn-details">Details</a>
-  </div>
-</div>
 </div>
 
 <div class="past-section">
@@ -539,10 +698,14 @@ footer{text-align:center;margin-top:3rem;padding:1rem 0;font-size:0.7rem;color:#
     <span class="arrow">&#9654;</span> Past &amp; Closed (6)
   </button>
   <div class="past-grid" id="pastGrid">
-<div class="card" data-category="hackathon" data-tier="Closed" data-deadline="2026-03-09" data-prize="125000" data-fit="7">
+<div class="card" data-category="hackathon" data-tier="Closed" data-deadline="2026-03-09" data-prize="125000" data-fit="7" data-score="87">
+  <div class="score-bar">
+    <div class="score-fill" style="width:87%;background:#b91c1c"></div>
+  </div>
   <div class="card-header">
-    <span class="tier-badge" style="color:#6b7280;background:rgba(107,114,128,0.15)">Closed</span>
+    <span class="tier-badge" style="color:#6b7280;background:#f3f4f6">Closed</span>
     <span class="cat-badge">Hackathon</span>
+    <span class="score-badge" style="color:#b91c1c;background:#fef2f2">87</span>
     <span class="countdown ">Ended</span>
   </div>
   <h3 class="card-title">Monolith + Seeker (Solana Mobile)</h3>
@@ -561,10 +724,14 @@ footer{text-align:center;margin-top:3rem;padding:1rem 0;font-size:0.7rem;color:#
     <a href="https://solanamobile.com/hackathon" target="_blank" rel="noopener" class="btn btn-submit">Submit</a>
   </div>
 </div>
-<div class="card" data-category="hackathon" data-tier="Closed" data-deadline="2026-03-08" data-prize="223250" data-fit="9">
+<div class="card" data-category="hackathon" data-tier="Closed" data-deadline="2026-03-08" data-prize="223250" data-fit="9" data-score="95">
+  <div class="score-bar">
+    <div class="score-fill" style="width:95%;background:#b91c1c"></div>
+  </div>
   <div class="card-header">
-    <span class="tier-badge" style="color:#6b7280;background:rgba(107,114,128,0.15)">Closed</span>
+    <span class="tier-badge" style="color:#6b7280;background:#f3f4f6">Closed</span>
     <span class="cat-badge">Hackathon</span>
+    <span class="score-badge" style="color:#b91c1c;background:#fef2f2">95</span>
     <span class="countdown ">Ended</span>
   </div>
   <h3 class="card-title">Chainlink Convergence</h3>
@@ -584,10 +751,14 @@ footer{text-align:center;margin-top:3rem;padding:1rem 0;font-size:0.7rem;color:#
     <a href="https://airtable.com/appAbClub49vmpqMe/pagE8dOPtGqSLHClz/form" target="_blank" rel="noopener" class="btn btn-submit">Submit</a>
   </div>
 </div>
-<div class="card" data-category="hackathon" data-tier="Closed" data-deadline="2026-03-06" data-prize="13000" data-fit="7">
+<div class="card" data-category="hackathon" data-tier="Closed" data-deadline="2026-03-06" data-prize="13000" data-fit="7" data-score="75">
+  <div class="score-bar">
+    <div class="score-fill" style="width:75%;background:#b91c1c"></div>
+  </div>
   <div class="card-header">
-    <span class="tier-badge" style="color:#6b7280;background:rgba(107,114,128,0.15)">Closed</span>
+    <span class="tier-badge" style="color:#6b7280;background:#f3f4f6">Closed</span>
     <span class="cat-badge">Hackathon</span>
+    <span class="score-badge" style="color:#b91c1c;background:#fef2f2">75</span>
     <span class="countdown ">Ended</span>
   </div>
   <h3 class="card-title">UK AI Agent Hackathon EP4 x OpenClaw</h3>
@@ -599,10 +770,14 @@ footer{text-align:center;margin-top:3rem;padding:1rem 0;font-size:0.7rem;color:#
     <a href="https://dorahacks.io/hackathon/1985/detail" target="_blank" rel="noopener" class="btn btn-details">Details</a>
   </div>
 </div>
-<div class="card" data-category="accelerator" data-tier="Closed" data-deadline="2026-03-03" data-prize="0" data-fit="7">
+<div class="card" data-category="accelerator" data-tier="Closed" data-deadline="2026-03-03" data-prize="0" data-fit="7" data-score="67">
+  <div class="score-bar">
+    <div class="score-fill" style="width:67%;background:#92400e"></div>
+  </div>
   <div class="card-header">
-    <span class="tier-badge" style="color:#6b7280;background:rgba(107,114,128,0.15)">Closed</span>
+    <span class="tier-badge" style="color:#6b7280;background:#f3f4f6">Closed</span>
     <span class="cat-badge">Accelerator</span>
+    <span class="score-badge" style="color:#92400e;background:#fffbeb">67</span>
     <span class="countdown ">Ended</span>
   </div>
   <h3 class="card-title">Legion | Simplicity Accelerator</h3>
@@ -616,13 +791,17 @@ footer{text-align:center;margin-top:3rem;padding:1rem 0;font-size:0.7rem;color:#
     <span class="track-tag">Bitcoin</span>
   </div>
   <div class="card-actions">
-    <span class="no-link">No links available</span>
+    <span class="no-link">No links yet</span>
   </div>
 </div>
-<div class="card" data-category="hackathon" data-tier="Closed" data-deadline="2026-02-28" data-prize="27000" data-fit="8">
+<div class="card" data-category="hackathon" data-tier="Closed" data-deadline="2026-02-28" data-prize="27000" data-fit="8" data-score="78">
+  <div class="score-bar">
+    <div class="score-fill" style="width:78%;background:#b91c1c"></div>
+  </div>
   <div class="card-header">
-    <span class="tier-badge" style="color:#6b7280;background:rgba(107,114,128,0.15)">Closed</span>
+    <span class="tier-badge" style="color:#6b7280;background:#f3f4f6">Closed</span>
     <span class="cat-badge">Hackathon</span>
+    <span class="score-badge" style="color:#b91c1c;background:#fef2f2">78</span>
     <span class="countdown ">Ended</span>
   </div>
   <h3 class="card-title">Starknet Re{define} (Bitcoin &amp; Privacy)</h3>
@@ -640,10 +819,14 @@ footer{text-align:center;margin-top:3rem;padding:1rem 0;font-size:0.7rem;color:#
     <a href="https://hackathon.starknet.org/" target="_blank" rel="noopener" class="btn btn-details">Details</a>
   </div>
 </div>
-<div class="card" data-category="hackathon" data-tier="Closed" data-deadline="2026-02-28" data-prize="0" data-fit="4">
+<div class="card" data-category="hackathon" data-tier="Closed" data-deadline="2026-02-28" data-prize="0" data-fit="4" data-score="58">
+  <div class="score-bar">
+    <div class="score-fill" style="width:58%;background:#92400e"></div>
+  </div>
   <div class="card-header">
-    <span class="tier-badge" style="color:#6b7280;background:rgba(107,114,128,0.15)">Closed</span>
+    <span class="tier-badge" style="color:#6b7280;background:#f3f4f6">Closed</span>
     <span class="cat-badge">Hackathon</span>
+    <span class="score-badge" style="color:#92400e;background:#fffbeb">58</span>
     <span class="countdown ">Ended</span>
   </div>
   <h3 class="card-title">Higgsfield Action Contest</h3>
@@ -656,15 +839,19 @@ footer{text-align:center;margin-top:3rem;padding:1rem 0;font-size:0.7rem;color:#
     <span class="track-tag">action generation</span>
   </div>
   <div class="card-actions">
-    <span class="no-link">No links available</span>
+    <span class="no-link">No links yet</span>
   </div>
 </div>
   </div>
 </div>
 
-<footer>
-  TRUTHBOUND IV &mdash; Hackathon &amp; Grant Tracker
-</footer>
+<div class="pipeline">
+  <strong>Auto-scanning:</strong>
+  <span class="sources">ETHGlobal, Devpost, DoraHacks</span> every Sunday 9AM.
+  Expired entries auto-closed. Site regenerated and pushed on each scan.
+</div>
+
+<footer>TRUTHBOUND IV</footer>
 
 </div>
 
@@ -676,11 +863,7 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.classList.add('active');
     const filter = btn.dataset.filter;
     document.querySelectorAll('#grid .card').forEach(card => {
-      if (filter === 'all' || card.dataset.category === filter) {
-        card.style.display = '';
-      } else {
-        card.style.display = 'none';
-      }
+      card.style.display = (filter === 'all' || card.dataset.category === filter) ? '' : 'none';
     });
   });
 });
@@ -691,6 +874,7 @@ document.getElementById('sort').addEventListener('change', (e) => {
   const cards = Array.from(grid.querySelectorAll('.card'));
   const key = e.target.value;
   cards.sort((a, b) => {
+    if (key === 'score') return parseInt(b.dataset.score) - parseInt(a.dataset.score);
     if (key === 'deadline') return a.dataset.deadline.localeCompare(b.dataset.deadline);
     if (key === 'prize') return parseInt(b.dataset.prize) - parseInt(a.dataset.prize);
     if (key === 'fit') return parseInt(b.dataset.fit) - parseInt(a.dataset.fit);
