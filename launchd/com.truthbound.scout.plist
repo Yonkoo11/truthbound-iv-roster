@@ -6,8 +6,8 @@
     <string>com.truthbound.scout</string>
     <key>ProgramArguments</key>
     <array>
-        <string>/opt/homebrew/bin/python3</string>
-        <string>/Users/yonko/Projects/truthbound-iv-roster/scripts/scout.py</string>
+        <string>/bin/bash</string>
+        <string>/Users/yonko/Projects/truthbound-iv-roster/scripts/scout_pipeline.sh</string>
     </array>
     <key>WorkingDirectory</key>
     <string>/Users/yonko/Projects/truthbound-iv-roster</string>
