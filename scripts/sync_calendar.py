@@ -62,15 +62,13 @@ def _ensure_calendar_running(max_attempts: int = 3) -> bool:
 
 
 def _event_exists(title: str) -> bool:
-    """Check if a calendar event with this exact title already exists."""
+    """Check if a calendar event with this exact title already exists in Work calendar."""
     script = f"""
 tell application "Calendar"
-    set found to false
-    repeat with cal in calendars
-        set evts to (every event of cal whose summary is "{_escape(title)}")
-        if (count of evts) > 0 then set found to true
-    end repeat
-    return found
+    tell calendar "{_escape(CALENDAR)}"
+        set evts to (every event whose summary is "{_escape(title)}")
+        return (count of evts) > 0
+    end tell
 end tell
 """
     ok, result = _run_applescript(script)
@@ -108,7 +106,7 @@ def create_calendar_event(opp: dict, dry_run: bool = False) -> bool:
         print(f"  [skip] {opp['name']}: deadline in the past")
         return False
 
-    title = f"DEADLINE: {opp['name']} (SENTINEL)"
+    title = f"DEADLINE: {opp['name']}"
     tracks = ", ".join(opp.get("tracks") or [])
     prize  = opp.get("prize_note") or (f"${opp.get('prize_usd', 0):,}" if opp.get("prize_usd") else "")
     angle  = str(opp.get("angle", ""))[:200]
@@ -117,7 +115,7 @@ def create_calendar_event(opp: dict, dry_run: bool = False) -> bool:
     start_date = f"{dl.strftime('%B')} {db.fmt_day(dl)}, {dl.year}"
 
     description = (
-        f"Project: TRUTHBOUND IV / SENTINEL\\n"
+        f"Project: TRUTHBOUND Roster\\n"
         f"Path: {PROJECT}\\n"
         f"Tracks: {tracks}\\n"
         f"Prize: {prize}\\n"
@@ -130,8 +128,9 @@ def create_calendar_event(opp: dict, dry_run: bool = False) -> bool:
         print(f"  [dry-run] Would create: {title} on {dl.isoformat()} with 7d/3d/1d reminders")
         return True
 
-    # Check for duplicate before creating
-    if _event_exists(title):
+    # Check for duplicate before creating (also check old "(SENTINEL)" format)
+    old_title = f"DEADLINE: {opp['name']} (SENTINEL)"
+    if _event_exists(title) or _event_exists(old_title):
         print(f"  [exists] {title} already in Calendar — skipping")
         _log_sync(opp["name"], "exists")
         return True  # Return True so calendar_synced stays True
@@ -183,11 +182,13 @@ def remove_past_events(dry_run: bool = False) -> None:
 
     print(f"Found {len(to_remove)} events eligible for removal.")
     for o in to_remove:
-        title = f"DEADLINE: {o['name']} (SENTINEL)"
+        # Check both old "(SENTINEL)" and new format
+        titles = [f"DEADLINE: {o['name']}", f"DEADLINE: {o['name']} (SENTINEL)"]
         if dry_run:
-            print(f"  [dry-run] Would remove: {title}")
+            print(f"  [dry-run] Would remove: {titles[0]}")
             continue
-        script = f"""
+        for title in titles:
+            script = f"""
 tell application "Calendar"
     repeat with cal in calendars
         set evts to (every event of cal whose summary is "{_escape(title)}")
