@@ -1,4 +1,4 @@
-# Truthbound Roster - Progress
+# BountyBoard - Progress
 
 ## Last Session: 2026-03-12 (continued)
 
@@ -20,7 +20,7 @@
 
 ### Architecture
 ```
-truthbound-iv-roster/
+bountyboard/
   roster.py        # CLI (default: today)
   db.py            # SQLite DAL
   classify.py      # shared tier logic
@@ -38,10 +38,10 @@ truthbound-iv-roster/
     generate_site.py    # static site generator (light/dark theme toggle)
     scout_pipeline.sh   # scout -> verify-exa -> generate -> push
   launchd/
-    com.truthbound.scout.plist      # Sunday 9AM (runs pipeline)
-    com.truthbound.exa-daily.plist  # Daily 7AM (daily Exa alerts)
-    com.truthbound.calendar.plist   # Daily 8AM
-    com.truthbound.morning.plist    # Daily 6AM
+    com.bountyboard.scout.plist      # Sunday 9AM (runs pipeline)
+    com.bountyboard.exa-daily.plist  # Daily 7AM (daily Exa alerts)
+    com.bountyboard.calendar.plist   # Daily 8AM
+    com.bountyboard.morning.plist    # Daily 6AM
   docs/
     index.html     # generated website (GitHub Pages)
     .nojekyll      # disable Jekyll processing
@@ -66,10 +66,10 @@ truthbound-iv-roster/
 - Estimated: ~$5/month total (daily Exa $0.60 + weekly scout $0.32 + find-similar $0.12 + verification $0.28)
 
 ### What I Did NOT Do
-- Did not load the exa-daily launchd plist (user should do: `launchctl load ~/Library/LaunchAgents/com.truthbound.exa-daily.plist` after copying)
+- Did not load the exa-daily launchd plist (user should do: `launchctl load ~/Library/LaunchAgents/com.bountyboard.exa-daily.plist` after copying)
 - Did not run a live end-to-end pipeline test (would spend real USDC)
 - Did not test Firecrawl scrape on a real URL (would spend $0.013)
 - Budget enforcement tested via import only, not by hitting the actual cap
 
 ### Live URL
-https://yonkoo11.github.io/truthbound-iv-roster/
+https://yonkoo11.github.io/bountyboard/

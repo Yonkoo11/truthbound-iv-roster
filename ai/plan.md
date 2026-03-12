@@ -52,7 +52,7 @@ Create two wrapper scripts that cron calls, instead of embedding all logic inlin
 
 ### Fix 5: Install cron + verify
 - Run `bash scripts/setup_cron.sh`
-- Verify: `crontab -l` shows two TRUTHBOUND-IV entries
+- Verify: `crontab -l` shows two BountyBoard entries
 
 ### Fix 6: Run dashboard visually
 - Start streamlit, screenshot to verify tabs render

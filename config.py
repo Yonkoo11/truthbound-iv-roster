@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 """
-config.py — Centralized configuration for TRUTHBOUND IV Roster.
+config.py — Centralized configuration for BountyBoard.
 """
 
 from pathlib import Path

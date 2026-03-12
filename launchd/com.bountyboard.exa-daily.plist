@@ -3,25 +3,25 @@
 <plist version="1.0">
 <dict>
     <key>Label</key>
-    <string>com.truthbound.morning</string>
+    <string>com.bountyboard.exa-daily</string>
     <key>ProgramArguments</key>
     <array>
         <string>/opt/homebrew/bin/python3</string>
-        <string>/Users/yonko/Projects/truthbound-iv-roster/scripts/morning_brief.py</string>
+        <string>/Users/yonko/Projects/bountyboard-iv-roster/scripts/exa_daily.py</string>
     </array>
     <key>WorkingDirectory</key>
-    <string>/Users/yonko/Projects/truthbound-iv-roster</string>
+    <string>/Users/yonko/Projects/bountyboard-iv-roster</string>
     <key>StartCalendarInterval</key>
     <dict>
         <key>Hour</key>
-        <integer>6</integer>
+        <integer>7</integer>
         <key>Minute</key>
         <integer>0</integer>
     </dict>
     <key>StandardOutPath</key>
-    <string>/Users/yonko/Projects/truthbound-iv-roster/logs/morning_launchd.log</string>
+    <string>/Users/yonko/Projects/bountyboard-iv-roster/logs/exa_daily_launchd.log</string>
     <key>StandardErrorPath</key>
-    <string>/Users/yonko/Projects/truthbound-iv-roster/logs/morning_launchd_err.log</string>
+    <string>/Users/yonko/Projects/bountyboard-iv-roster/logs/exa_daily_launchd_err.log</string>
     <key>EnvironmentVariables</key>
     <dict>
         <key>PATH</key>

@@ -1,4 +1,4 @@
-# TRUTHBOUND IV — Hackathon Strategy
+# BountyBoard — Hackathon Strategy
 
 ## The Meta-Principle
 **Target underserved tracks.** Judges see 60-100 projects. The winner is almost never the best-executed generic idea — it's the one that uses the sponsor's tech in a way the sponsor built it for but rarely sees.
@@ -34,7 +34,7 @@ Technical quality is a filter, not a selector. After filtering for "does it work
 
 ---
 
-## TRUTHBOUND IV's Winning Narrative
+## BountyBoard's Winning Narrative
 
 **One-line pitch:** "SENTINEL makes AI reasoning auditable on-chain — because trust without proof is just marketing."
 
@@ -135,7 +135,7 @@ In order of long-term value:
 
 ---
 
-## Honest Assessment of TRUTHBOUND IV
+## Honest Assessment of BountyBoard
 **Strengths:** The AI + on-chain truth theme is genuinely differentiated. It's not DeFi. It's not a token. Judges who are tired of DeFi projects will notice it.
 
 **Risks:**

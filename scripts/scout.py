@@ -1,14 +1,14 @@
 from __future__ import annotations
 
 """
-scout.py — Automated opportunity discovery for TRUTHBOUND IV.
+scout.py — Automated opportunity discovery for BountyBoard.
 
 Sources:
   - ETHGlobal (events API)
   - Devpost (JSON search API)
   - DoraHacks (public API)
 
-Scores each opportunity against TRUTHBOUND IV themes.
+Scores each opportunity against BountyBoard themes.
 Deduplicates via DB URLs + seen_urls.json fallback.
 Notifies via notify.py on completion or failure.
 
@@ -53,7 +53,7 @@ log = logging.getLogger("scout")
 # ── Scoring ───────────────────────────────────────────────────────────────────
 
 PHRASE_WEIGHTS: dict[str, int] = {
-    # Core TRUTHBOUND IV themes — highest weight
+    # Core BountyBoard themes — highest weight
     "ai agent":             3,
     "zero knowledge proof": 3,
     "verifiable compute":   3,

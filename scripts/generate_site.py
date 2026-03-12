@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 """
-generate_site.py — Static site generator for TRUTHBOUND IV Roster.
+generate_site.py — Static site generator for BountyBoard.
 
 Reads from SQLite, generates docs/index.html with:
   - Clean light theme, responsive card layout
@@ -354,7 +354,7 @@ def generate() -> str:
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TRUTHBOUND ROSTER</title>
+<title>BOUNTYBOARD</title>
 <script>
 // Apply saved theme before paint to prevent flash
 (function(){{var t=localStorage.getItem('tb-theme');if(t)document.documentElement.setAttribute('data-theme',t);else if(matchMedia('(prefers-color-scheme:dark)').matches)document.documentElement.setAttribute('data-theme','dark')}})();
@@ -622,7 +622,7 @@ footer{{text-align:center;margin-top:2rem;padding:1rem 0;font-size:0.68rem;color
 
 <header>
   <div class="header-left">
-    <h1>TRUTHBOUND ROSTER</h1>
+    <h1>BOUNTYBOARD</h1>
     <div class="updated">Updated {updated}</div>
   </div>
   <button class="theme-toggle" id="themeToggle" title="Toggle theme">
@@ -679,7 +679,7 @@ footer{{text-align:center;margin-top:2rem;padding:1rem 0;font-size:0.68rem;color
   Expired entries auto-closed. Site regenerated and pushed on each scan.
 </div>
 
-<footer>TRUTHBOUND IV</footer>
+<footer>BOUNTYBOARD</footer>
 
 </div>
 

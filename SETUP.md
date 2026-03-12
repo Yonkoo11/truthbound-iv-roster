@@ -1,4 +1,4 @@
-# TRUTHBOUND IV — Opportunity Roster
+# BountyBoard — Opportunity Roster
 
 A personal CLI + dashboard for tracking hackathons, grants, and bounties. Automatically discovers new opportunities, syncs deadlines to Apple Calendar, and sends a daily morning briefing via Telegram.
 
@@ -16,7 +16,7 @@ A personal CLI + dashboard for tracking hackathons, grants, and bounties. Automa
 
 ```bash
 git clone <repo-url>
-cd truthbound-iv-roster
+cd bountyboard
 
 python3 -m venv .venv
 source .venv/bin/activate

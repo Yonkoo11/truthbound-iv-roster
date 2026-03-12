@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 """
-TRUTHBOUND IV — Opportunity Roster & Strategy Engine
+BOUNTYBOARD — Opportunity Roster & Strategy Engine
 
 Commands:
   python roster.py                  weekly focus report (default)
@@ -190,7 +190,7 @@ def cmd_weekly() -> None:
         if current_phase else ""
     )
     console.print(Panel(
-        f"[bold white]TRUTHBOUND IV — Weekly Opportunity Roster[/bold white]\n"
+        f"[bold white]BOUNTYBOARD — Weekly Opportunity Roster[/bold white]\n"
         f"[dim]Week of {TODAY.strftime('%B')} {fmt_day(TODAY)}, {TODAY.year}   |   "
         f"Must-Do: {len(must)}   Should-Do: {len(should)}   May-Do: {len(may)}   "
         f"Prize pool in scope: ${scope_prize:,}[/dim]"
@@ -295,7 +295,7 @@ def cmd_ideas(event_filter: str | None) -> None:
 
     console.print()
     console.print(Panel(
-        "[bold]TRUTHBOUND IV — Winning Ideas & Judge Intelligence[/bold]\n"
+        "[bold]BOUNTYBOARD — Winning Ideas & Judge Intelligence[/bold]\n"
         "[dim]Ideas ranked by: novelty + judge fit + build achievability[/dim]",
         style="blue",
     ))
@@ -379,7 +379,7 @@ def cmd_sprint() -> None:
 
     console.print()
     console.print(Panel(
-        f"[bold]TRUTHBOUND IV — Sprint Plan[/bold]\n"
+        f"[bold]BOUNTYBOARD — Sprint Plan[/bold]\n"
         f"[dim]{plan.get('description', '')}[/dim]",
         style="blue",
     ))
@@ -672,7 +672,7 @@ def cmd_add_url(url: str) -> None:
     fit_raw  = input("  Theme fit 1-10: ").strip()
     fit      = int(fit_raw) if fit_raw.isdigit() else None
     category = input("  Category (hackathon/grant/accelerator/bounty) [hackathon]: ").strip() or "hackathon"
-    angle    = input("  TRUTHBOUND IV angle: ").strip()
+    angle    = input("  BOUNTYBOARD angle: ").strip()
 
     if not name:
         console.print("[red]Name is required.[/red]")
@@ -1059,9 +1059,9 @@ def cmd_health() -> None:
 
     # Launchd agents status
     agents = {
-        "com.truthbound.scout":    ("Scout",    "Sunday 9AM"),
-        "com.truthbound.calendar": ("Calendar", "Daily 8AM"),
-        "com.truthbound.morning":  ("Morning",  "Daily 6AM"),
+        "com.bountyboard.scout":    ("Scout",    "Sunday 9AM"),
+        "com.bountyboard.calendar": ("Calendar", "Daily 8AM"),
+        "com.bountyboard.morning":  ("Morning",  "Daily 6AM"),
     }
     for label, (name, schedule) in agents.items():
         result = subprocess.run(["launchctl", "list", label], capture_output=True, text=True)
@@ -1151,7 +1151,7 @@ def cmd_health() -> None:
 
 def cmd_help() -> None:
     console.print(Panel(
-        "[bold]TRUTHBOUND IV Opportunity Roster[/bold]\n\n"
+        "[bold]BOUNTYBOARD Opportunity Roster[/bold]\n\n"
         "  [cyan]python roster.py[/cyan]                  Weekly report\n"
         "  [cyan]python roster.py today[/cyan]             Due this week\n"
         "  [cyan]python roster.py list[/cyan]              All active\n"

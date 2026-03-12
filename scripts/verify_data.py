@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 """
-verify_data.py — Data quality checker for TRUTHBOUND IV Roster.
+verify_data.py — Data quality checker for BountyBoard.
 
 Checks every opportunity for:
   - Expired deadlines (marks as closed)
@@ -111,7 +111,7 @@ def verify(dry_run: bool = False, check_urls: bool = False) -> dict:
             ready.append(opp_id)
 
     # Print report
-    print(f"TRUTHBOUND ROSTER — Data Quality Report ({today})")
+    print(f"BOUNTYBOARD — Data Quality Report ({today})")
     print(f"{'=' * 50}")
     print(f"Total entries: {len(opps)}")
     print()

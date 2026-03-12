@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 """
-morning_brief.py — Daily 6AM briefing for TRUTHBOUND IV.
+morning_brief.py — Daily 6AM briefing for BountyBoard.
 
 Sends a concise digest via notify.py (Telegram + macOS):
   - Urgent deadlines (0-3 days)
@@ -75,7 +75,7 @@ def build_brief() -> str:
     won_count = sum(1 for o in opps if o.get("status") == "won")
 
     day_str = today.strftime("%a %b %d")
-    lines = [f"TRUTHBOUND ROSTER — {day_str}", ""]
+    lines = [f"BOUNTYBOARD — {day_str}", ""]
 
     # Section 1: URGENT (0-3 days)
     if urgent:
@@ -191,7 +191,7 @@ def main() -> None:
         print(brief)
         return
 
-    notify("TRUTHBOUND ROSTER", brief, level="info")
+    notify("BOUNTYBOARD", brief, level="info")
 
 
 if __name__ == "__main__":

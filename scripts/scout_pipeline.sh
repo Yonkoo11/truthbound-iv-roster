@@ -1,11 +1,11 @@
 #!/bin/bash
 # scout_pipeline.sh — Full scout pipeline: discover → verify → generate site → push
 #
-# Called by launchd (com.truthbound.scout) every Sunday 9AM.
+# Called by launchd (com.bountyboard.scout) every Sunday 9AM.
 
 set -euo pipefail
 
-REPO="/Users/yonko/Projects/truthbound-iv-roster"
+REPO="/Users/yonko/Projects/bountyboard"
 PYTHON="/opt/homebrew/bin/python3"
 cd "$REPO"
 

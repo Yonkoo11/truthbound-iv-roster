@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 """
-classify.py — Tier classification for TRUTHBOUND IV opportunities.
+classify.py — Tier classification for BountyBoard opportunities.
 
 Single source of truth for Must-Do / Should-Do / May-Do logic.
 """

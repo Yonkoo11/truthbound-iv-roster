@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 """
-sync_calendar.py — Apple Calendar sync for TRUTHBOUND IV deadlines.
+sync_calendar.py — Apple Calendar sync for BountyBoard deadlines.
 
 Fixes vs original:
 - calendar_synced only set True when AppleScript actually succeeds
@@ -115,7 +115,7 @@ def create_calendar_event(opp: dict, dry_run: bool = False) -> bool:
     start_date = f"{dl.strftime('%B')} {db.fmt_day(dl)}, {dl.year}"
 
     description = (
-        f"Project: TRUTHBOUND Roster\\n"
+        f"Project: BountyBoard\\n"
         f"Path: {PROJECT}\\n"
         f"Tracks: {tracks}\\n"
         f"Prize: {prize}\\n"

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 """
-db.py — SQLite data access layer for TRUTHBOUND IV Roster.
+db.py — SQLite data access layer for BountyBoard.
 
 All reads/writes go through this module.
 File locking (fcntl) prevents concurrent write corruption.
