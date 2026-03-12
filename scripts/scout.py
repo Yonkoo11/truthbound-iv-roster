@@ -577,6 +577,104 @@ def _build_name_slugs(existing_ids: set[str], candidates: list[dict]) -> set[str
     return slugs
 
 
+# ── Source: Exa (via stableenrich.dev) ────────────────────────────────────────
+
+EXA_QUERIES = [
+    "blockchain hackathon 2026 prize",
+    "web3 AI agent hackathon grant accelerator 2026",
+    "crypto developer bounty program 2026",
+]
+
+
+def fetch_exa() -> list[dict]:
+    """Neural web search via stableenrich.dev Exa API (x402 micropayments).
+    ~$0.027 per query (search + summaries). Catches hackathons announced on
+    news sites, blogs, and smaller platforms that our scrapers miss."""
+    log.info("Fetching Exa search results via stableenrich.dev...")
+    results = []
+    seen_urls: set[str] = set()
+
+    for query in EXA_QUERIES:
+        body = json.dumps({
+            "query": query,
+            "numResults": 15,
+            "startPublishedDate": f"{date.today().year}-01-01",
+            "contents": {
+                "summary": {
+                    "query": "Extract: hackathon name, organizer, deadline date, prize pool, accepted chains/languages, submission URL"
+                },
+            },
+        })
+        try:
+            import subprocess as _sp
+            proc = _sp.run(
+                ["npx", "agentcash", "fetch",
+                 "https://stableenrich.dev/api/exa/search",
+                 "-m", "POST", "-b", body, "--format", "json"],
+                capture_output=True, text=True, timeout=60,
+            )
+            if proc.returncode != 0:
+                log.warning(f"Exa query failed: {proc.stderr[:200]}")
+                continue
+            data = json.loads(proc.stdout)
+        except Exception as e:
+            log.warning(f"Exa fetch error: {e}")
+            continue
+
+        items = data.get("data", {}).get("results", [])
+        cost = data.get("data", {}).get("costDollars", {}).get("total", 0)
+        log.info(f"Exa query '{query[:40]}': {len(items)} results (${cost:.3f})")
+
+        for item in items:
+            url = item.get("url", "").strip()
+            title = item.get("title", "").strip()
+            if not url or not title or url in seen_urls:
+                continue
+            seen_urls.add(url)
+
+            summary = item.get("summary", "") or ""
+            pub_date = _normalize_date(item.get("publishedDate", "") or "")
+
+            # Extract prize from summary (look for $X,XXX or $XK patterns)
+            prize_usd = 0
+            prize_match = re.search(r"\$(\d[\d,]*(?:\.\d+)?)\s*(?:K|k)", summary)
+            if prize_match:
+                prize_usd = int(float(prize_match.group(1).replace(",", "")) * 1000)
+            else:
+                prize_match = re.search(r"\$(\d[\d,]+)", summary)
+                if prize_match:
+                    val = int(prize_match.group(1).replace(",", ""))
+                    if val >= 1000:  # ignore small dollar amounts
+                        prize_usd = val
+
+            # Extract deadline from summary
+            deadline = None
+            dl_patterns = [
+                r"deadline[:\s]+(?:is\s+)?(\w+ \d{1,2},?\s*\d{4})",
+                r"(?:runs?|running)\s+(?:from\s+)?\w+ \d{1,2}[^,]*?(?:to|through|until)\s+(\w+ \d{1,2},?\s*\d{4})",
+                r"(\w+ \d{1,2},?\s*\d{4})\s*(?:deadline|submission)",
+            ]
+            for pat in dl_patterns:
+                m = re.search(pat, summary, re.IGNORECASE)
+                if m:
+                    deadline = _normalize_date(m.group(1))
+                    if deadline:
+                        break
+
+            results.append({
+                "source":     "exa",
+                "url":        url,
+                "name":       title[:100],
+                "description": summary[:500],
+                "deadline":   deadline,
+                "prize_usd":  prize_usd,
+                "prize_note": f"${prize_usd:,}" if prize_usd else "",
+            })
+
+    log.info(f"Exa: {len(results)} entries total")
+    return results
+
+
 # ── Sources registry ──────────────────────────────────────────────────────────
 
 SOURCES = {
@@ -586,6 +684,7 @@ SOURCES = {
     "gitcoin":   fetch_gitcoin,
     "solana":    fetch_solana,
     "twitter":   fetch_twitter_signals,
+    "exa":       fetch_exa,
     # encode: JS SPA — cannot scrape without headless browser
 }
 
