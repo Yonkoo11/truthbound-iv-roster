@@ -162,6 +162,14 @@ def build_brief() -> str:
             wins = sum(1 for o in outcomes if o.get("outcome") == "won")
             lines.append(f"Win rate: {wins}/{len(outcomes)} ({100 * wins // len(outcomes)}%)")
 
+        # Stableenrich spending
+        try:
+            from scripts.cost_monitor import get_spending_report
+            lines.append("")
+            lines.append(get_spending_report())
+        except Exception:
+            pass
+
     # Quiet day: if nothing urgent, still confirm system is alive
     if not urgent and not this_week and not review_items:
         if deadlines:

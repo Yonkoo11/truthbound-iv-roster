@@ -606,17 +606,14 @@ def fetch_exa() -> list[dict]:
             },
         })
         try:
-            import subprocess as _sp
-            proc = _sp.run(
-                ["npx", "agentcash", "fetch",
-                 "https://stableenrich.dev/api/exa/search",
-                 "-m", "POST", "-b", body, "--format", "json"],
-                capture_output=True, text=True, timeout=60,
+            from scripts.cost_monitor import BudgetExceeded, agentcash_fetch
+            data = agentcash_fetch(
+                "https://stableenrich.dev/api/exa/search",
+                body=body, estimated_cost=0.03,
             )
-            if proc.returncode != 0:
-                log.warning(f"Exa query failed: {proc.stderr[:200]}")
-                continue
-            data = json.loads(proc.stdout)
+        except BudgetExceeded as e:
+            log.warning(f"Exa budget exceeded: {e}")
+            break
         except Exception as e:
             log.warning(f"Exa fetch error: {e}")
             continue
@@ -673,6 +670,99 @@ def fetch_exa() -> list[dict]:
 
     log.info(f"Exa: {len(results)} entries total")
     return results
+
+
+# ── Find-Similar (competitive intelligence) ──────────────────────────────────
+
+FIND_SIMILAR_URL = "https://stableenrich.dev/api/exa/find-similar"
+
+
+def _run_find_similar(
+    existing_urls: set[str],
+    existing_ids: set[str],
+    name_slugs: set[str],
+    new_opps: list[dict],
+) -> None:
+    """Query Exa find-similar for top-prize opportunities. Adds results as needs_review."""
+    from scripts.cost_monitor import BudgetExceeded, agentcash_fetch
+
+    # Get top 3 active opportunities by prize (>$50K, with URLs)
+    all_opps = db.get_all()
+    top = sorted(
+        [o for o in all_opps if o.get("prize_usd", 0) >= 50_000
+         and o.get("url") and o.get("status") in ("active", "needs_review")],
+        key=lambda o: o.get("prize_usd", 0),
+        reverse=True,
+    )[:3]
+
+    if not top:
+        log.info("Find-similar: no high-prize entries to query")
+        return
+
+    log.info(f"Find-similar: querying {len(top)} top-prize entries")
+    found = 0
+
+    for opp in top:
+        body = json.dumps({
+            "url": opp["url"],
+            "numResults": 5,
+            "startPublishedDate": f"{date.today().year}-01-01",
+            "contents": {
+                "summary": {
+                    "query": "Extract: hackathon name, deadline date, prize pool"
+                },
+            },
+        })
+
+        try:
+            data = agentcash_fetch(FIND_SIMILAR_URL, body=body, estimated_cost=0.01)
+        except BudgetExceeded as e:
+            log.warning(f"Find-similar budget exceeded: {e}")
+            break
+        except Exception as e:
+            log.warning(f"Find-similar failed for {opp['name']}: {e}")
+            continue
+
+        items = data.get("data", {}).get("results", [])
+        for item in items:
+            url = item.get("url", "").strip()
+            title = item.get("title", "").strip()
+            if not url or not title or url in existing_urls:
+                continue
+
+            slug = _name_slug(title)
+            if slug and slug in name_slugs:
+                continue
+
+            existing_urls.add(url)
+            if slug:
+                name_slugs.add(slug)
+
+            opp_id = re.sub(r"[^a-z0-9]+", "-", title.lower())[:40].strip("-")
+            if opp_id in existing_ids:
+                opp_id = f"{opp_id}-similar"
+            existing_ids.add(opp_id)
+
+            summary = item.get("summary", "") or ""
+            new_opp = {
+                "id": opp_id,
+                "name": title[:100],
+                "category": "hackathon",
+                "status": "needs_review",
+                "url": url,
+                "description": summary[:500],
+                "notes": f"Found via find-similar from {opp['name']} on {TODAY_ISO}",
+                "source": "exa_similar",
+            }
+            new_opps.append(new_opp)
+            try:
+                db.upsert(new_opp)
+                found += 1
+                log.info(f"[SIMILAR] {title} (from {opp['name']})")
+            except Exception as e:
+                log.warning(f"Failed to add similar: {e}")
+
+    log.info(f"Find-similar: added {found} new entries")
 
 
 # ── Sources registry ──────────────────────────────────────────────────────────
@@ -851,6 +941,10 @@ def main():
     # Append to candidates file (write back even if only TTL-cleaned)
     with open(CANDIDATES_FILE, "w") as f:
         json.dump(candidates + new_candidates, f, indent=2)
+
+    # Find-similar: discover related opportunities from top-prize entries
+    if not source_filter and not dry_run:
+        _run_find_similar(existing_urls, existing_ids, name_slugs, new_opps)
 
     # Versioned daily backup
     try:

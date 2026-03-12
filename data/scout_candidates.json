@@ -944,5 +944,104 @@
     "prize_note": "$2000",
     "theme_fit": 4,
     "scout_date": "2026-03-05"
+  },
+  {
+    "source": "exa",
+    "url": "https://www.competehub.dev/en/competitions/urls48aae5bee691a528aba38f68e060a083",
+    "name": "Chainlink Hackathon Awards Details & Schedule - CompeteHub",
+    "description": "The webpage details the Chainlink Hackathon organized by CompeteHub. The hackathon's name is \"Chainlink Hackathon.\" The organizer is Chainlink, a leading decentralized oracle network. The deadline for submissions is not explicitly specified in the provided excerpt. The prize pool details are not mentioned in the available text. Accepted chains include various blockchain networks compatible with Chainlink, and programming languages are not specified but typically involve smart contract languages ",
+    "deadline": null,
+    "prize_usd": 0,
+    "prize_note": "",
+    "theme_fit": 5,
+    "scout_date": "2026-03-12"
+  },
+  {
+    "source": "exa",
+    "url": "https://www.competehub.dev/en/competitions/urls7d5b28f5a1ab6a69c677838380e1794c",
+    "name": "Solana Privacy Hackathon - CompeteHub | Hackathon Competitio",
+    "description": "**Hackathon Name:** Solana Privacy Hackathon  \n**Organizer:** CompeteHub  \n**Deadline Date:** Not specified in the provided text  \n**Prize Pool:** Not specified in the provided text  \n**Accepted Chains/Languages:** Focused on Solana blockchain; specific accepted languages are not detailed  \n**Submission URL:** [https://www.competehub.dev/en/competitions/urls7d5](https://www.competehub.dev/en/competitions/urls7d5)  \n\n*Note:* For detailed deadlines and prize information, please visit the provided ",
+    "deadline": null,
+    "prize_usd": 0,
+    "prize_note": "",
+    "theme_fit": 4,
+    "scout_date": "2026-03-12"
+  },
+  {
+    "source": "exa",
+    "url": "https://www.techflowpost.com/en-US/newsletter/113221",
+    "name": "Monad will host the Moltiverse Hackathon with a total prize pool of $200,000 | Blockchain 24/7 News ",
+    "description": "The Moltiverse Hackathon, organized by Monad, features a total prize pool of $200,000. Specific details such as the deadline date, accepted chains/languages, and submission URL are not provided in the available content. For more information and to participate, interested individuals should visit the official submission page linked through the event's announcement.",
+    "deadline": null,
+    "prize_usd": 200000,
+    "prize_note": "$200,000",
+    "theme_fit": 4,
+    "scout_date": "2026-03-12"
+  },
+  {
+    "source": "exa",
+    "url": "https://www2.prnewswire.com/in/news-releases/mantle-global-hackathon-2025-over-2-000-web3-builders-worldwide-innovate-in-the-next-wave-of-rwa-and-ai-302676220.html",
+    "name": "Mantle Global Hackathon 2025: Over 2,000 Web3 Builders Worldwide Innovate in the Next Wave of RWA an",
+    "description": "The Mantle Global Hackathon 2025, organized by Mantle, concluded its submission phase with 519 projects from over 2,044 developers. The event's deadline for submissions was in early February 2026, with finalists announced on February 3-4 and winners revealed on February 10 at Consensus Hong Kong. The hackathon offered a total prize pool of $150,000, including a $30,000 grand prize and track-specific awards, along with opportunities for incubation and grants. Participants utilized multiple blockc",
+    "deadline": null,
+    "prize_usd": 150000,
+    "prize_note": "$150,000",
+    "theme_fit": 4,
+    "scout_date": "2026-03-12"
+  },
+  {
+    "source": "exa",
+    "url": "https://blog.colosseum.com/announcing-colosseums-agent-hackathon/",
+    "name": "Announcing Colosseum\u2019s Agent Hackathon",
+    "description": "**Hackathon Name:** Colosseum\u2019s Agent Hackathon  \n**Organizer:** Colosseum in partnership with the Solana Foundation  \n**Deadline Date:** February 12, 2026  \n**Prize Pool:** Total of $100,000 USDC (1st: $50,000; 2nd: $30,000; 3rd: $15,000; Most Agentic: $5,000)  \n**Accepted Chains/Languages:** Focused on Solana blockchain; participants build crypto products using Solana skills and APIs  \n**Submission URL:** [colosseum.com/agent-hackathon](https://www.colosseum.com/agent-hackathon/?ref=blog.colos",
+    "deadline": null,
+    "prize_usd": 100000,
+    "prize_note": "$100,000",
+    "theme_fit": 5,
+    "scout_date": "2026-03-12"
+  },
+  {
+    "source": "exa",
+    "url": "https://www.protocol.ai/blog/pl-genesis-hackathon/",
+    "name": "PL_Genesis: Frontiers of Collaboration Hackathon \u2014 The Next Chapter of Open Innovation | Protocol La",
+    "description": "**Hackathon Name:** PL_Genesis: Frontiers of Collaboration Hackathon  \n**Organizer:** Protocol Labs  \n**Deadline Date:** Not specified in the provided text  \n**Prize Pool:** Over $150,000, with additional prizes throughout the season  \n**Accepted Chains/Languages:** Focus areas include Web3, Crypto, AI, Robotics, and Neurotechnology\u2014specific technical requirements are not detailed, but projects should align with these frontier domains.  \n**Submission URL:** [https://www.plgenesis.com](https://ww",
+    "deadline": null,
+    "prize_usd": 150000,
+    "prize_note": "$150,000",
+    "theme_fit": 5,
+    "scout_date": "2026-03-12"
+  },
+  {
+    "source": "exa",
+    "url": "https://www.globenewswire.com/news-release/2026/02/27/3246238/0/en/0G-and-Stanford-Blockchain-Veterans-Launch-20M-Apollo-AI-Accelerator.html",
+    "name": "0G and Stanford Blockchain Veterans Launch $20M Apollo AI",
+    "description": "The webpage announces the launch of the 0G Apollo AI Accelerator, a 10-week program created by 0G Labs in partnership with Stanford blockchain veterans and Blockchain Builders Fund. The accelerator offers up to $2 million in funding per project, along with $200,000 in Google Cloud credits and access to Privy, a wallet infrastructure platform acquired by Stripe. The program aims to support the development of revenue-generating AI applications on decentralized infrastructure, emphasizing open, blo",
+    "deadline": null,
+    "prize_usd": 200000,
+    "prize_note": "$200,000",
+    "theme_fit": 4,
+    "scout_date": "2026-03-12"
+  },
+  {
+    "source": "exa",
+    "url": "https://www.chaincatcher.com/en/article/2248004",
+    "name": "UK AI Agent Hackathon Ep4 with OpenClaw The world's first openclaw themed university hackathon - Cha",
+    "description": "The webpage discusses the UK AI Agent Hackathon Ep4, organized by ChainCatcher in collaboration with OpenClaw. Details such as the deadline date, prize pool, accepted chains/languages, and submission URL are not explicitly provided in the visible content. For precise information on these specifics, visiting the official event page or contacting the organizers directly is recommended.",
+    "deadline": null,
+    "prize_usd": 0,
+    "prize_note": "",
+    "theme_fit": 4,
+    "scout_date": "2026-03-12"
+  },
+  {
+    "source": "exa",
+    "url": "https://www.competehub.dev/en/competitions/dorahacksgoodvibes",
+    "name": "Good Vibes Only: OpenClaw Edition | BNBChain - CompeteHub",
+    "description": "**Hackathon Name:** Good Vibes Only: OpenClaw Edition  \n**Organizer:** BNB Chain via CompeteHub (DoraHacks platform)  \n**Deadline Date:** February 19, 2026, at 3:00 PM UTC  \n**Prize Pool:** $100,000  \n**Accepted Chains/Languages:** BNB Chain (including BSC and opBNB); projects must provide onchain proof (contract address or transaction hash). Participants are encouraged to use AI tools for development.  \n**Submission URL:** [https://www.competehub.dev/en/competitions/dorahac](https://www.compete",
+    "deadline": null,
+    "prize_usd": 100000,
+    "prize_note": "$100,000",
+    "theme_fit": 4,
+    "scout_date": "2026-03-12"
   }
 ]

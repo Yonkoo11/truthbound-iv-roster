@@ -31,3 +31,10 @@ SCOUT_CORE_WEIGHT = 3    # "ai agent", "zero knowledge proof", etc.
 SCOUT_HIGH_WEIGHT = 2    # "zkp", "zkml", "attestation", etc.
 SCOUT_MID_WEIGHT = 1     # "blockchain", "web3", etc.
 SCOUT_NEG_WEIGHT = -1    # "defi only", "nft only", etc.
+
+# Stableenrich cost controls
+DAILY_SPEND_CAP = 0.50       # USD, hard stop per day
+WEEKLY_SPEND_CAP = 2.00      # USD, hard stop per week
+WALLET_ALERT_THRESHOLD = 1.00  # USD, Telegram warning when balance drops below
+SPEND_LOG = DATA_DIR / "spend_log.jsonl"
+AGENTCASH_BIN = "/opt/homebrew/bin/agentcash"

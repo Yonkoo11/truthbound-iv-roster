@@ -15,9 +15,9 @@ echo "=== Scout Pipeline $(date) ==="
 echo "--- Running scout ---"
 $PYTHON scripts/scout.py 2>&1 || echo "Scout had errors (continuing)"
 
-# Step 2: Verify data quality, close expired
+# Step 2: Verify data quality, close expired + cross-check Exa results
 echo "--- Verifying data ---"
-$PYTHON scripts/verify_data.py 2>&1
+$PYTHON scripts/verify_data.py --verify-exa 2>&1
 
 # Step 3: Regenerate website
 echo "--- Generating site ---"
